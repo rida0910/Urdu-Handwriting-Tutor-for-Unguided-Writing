@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".RegisterActivity">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="Urdu Handwriting Tutor"
+        android:textColor="#ffff"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Learn Urdu in a Smart Way!"
+        android:textColor="#ffff"
+        android:textSize="18sp"
+        android:layout_marginTop="95dp"/>
+
+    <EditText
+        android:id="@+id/Name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView"
+        android:layout_marginBottom="16dp"
+        android:hint="Full Name"
+        android:inputType="textPersonName"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="100dp"/>
+
+    <EditText
+        android:id="@+id/Email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Name"
+        android:layout_marginBottom="16dp"
+        android:hint="Email Address"
+        android:inputType="textEmailAddress"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"/>
+
+    <EditText
+        android:id="@+id/Password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Email"
+        android:layout_marginBottom="16dp"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp" />
+
+    <EditText
+        android:id="@+id/Age"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Password"
+        android:layout_marginBottom="16dp"
+        android:hint="Age"
+        android:inputType="number"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp" />
+
+    <RadioGroup
+        android:id="@+id/radioSex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/Age"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_centerHorizontal="true">
+
+        <RadioButton
+            android:id="@+id/radioMale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Male"
+            android:textAllCaps="true"
+            android:textSize="14sp"
+            android:layout_marginRight="64dp"/>
+
+        <RadioButton
+            android:id="@+id/radioFemale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Female"
+            android:textAllCaps="true"
+            android:textSize="14sp" />
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/Whandednesstxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Writing Hand:"
+        android:layout_below="@id/radioSex"
+        android:layout_marginRight="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginBottom="16dp"
+        android:textSize="18sp"/>
+    <RadioGroup
+        android:id="@+id/Whandedness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/Whandednesstxt"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="16dp"
+        android:layout_centerHorizontal="true">
+
+        <RadioButton
+            android:id="@+id/rightHand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Right"
+            android:textAllCaps="true"
+            android:textSize="14sp"
+            android:layout_marginRight="64dp"/>
+
+        <RadioButton
+            android:id="@+id/lefthand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Left"
+            android:textAllCaps="true"
+            android:textSize="14sp" />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/registerbtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Whandedness"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_button"
+        android:onClick="register"
+        android:text="Register"
+        android:textColor="#ffff" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/registerbtn"
+        android:layout_centerHorizontal="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Already a User? "
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp" />
+        <TextView
+            android:id="@+id/login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login"
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp"
+            android:textColorLink="@color/mycolor"
+            android:textColor="@color/mycolor" />
+    </LinearLayout>
+
+</RelativeLayout>

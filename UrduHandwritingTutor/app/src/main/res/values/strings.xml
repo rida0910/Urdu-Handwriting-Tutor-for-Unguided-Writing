@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">Urdu Handwriting Tutor</string>
+    <string name="register"><u>Register here</u></string>
+    <string name="login"><u>Log in here</u></string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+
+    <string name="alif">ا</string>
+    <string name="bay">ب</string>
+    <string name="pay">پ</string>
+    <string name="tay">ت</string>
+    <string name="ttay">ٹ</string>
+    <string name="say">ث</string>
+    <string name="jeem">ج</string>
+    <string name="chay">چ</string>
+    <string name="hay">ح</string>
+    <string name="khay">خ</string>
+    <string name="daal">د</string>
+    <string name="ddal">ڈ</string>
+    <string name="zaal">ذ</string>
+    <string name="ray">ر</string>
+    <string name="rray">ڑ</string>
+    <string name="zay">ز</string>
+    <string name="ssay">ژ</string>
+    <string name="seen">س</string>
+    <string name="sheen">ش</string>
+    <string name="suaad">ص</string>
+    <string name="zuaad">ض</string>
+    <string name="toayein">ط</string>
+    <string name="zoayein">ظ</string>
+    <string name="aayein">ع</string>
+    <string name="ghayein">غ</string>
+    <string name="fay">ف</string>
+    <string name="qaaf">ق</string>
+    <string name="kaaf">ک</string>
+    <string name="gaaf">گ</string>
+    <string name="laam">ل</string>
+    <string name="meem">م</string>
+    <string name="noon">ن</string>
+    <string name="wao">و</string>
+    <string name="haa">ہ</string>
+    <string name="hamza">ء</string>
+    <string name="choti_yay">ی</string>
+    <string name="barri_yay">ے</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

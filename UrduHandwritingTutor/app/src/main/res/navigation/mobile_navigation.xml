@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.urduhandwritingtutor.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_evaluations"
+        android:name="com.example.urduhandwritingtutor.ui.evaluations"
+        android:label="Evaluations"
+        tools:layout="@layout/fragment_evaluations" />
+
+    <fragment
+        android:id="@+id/nav_quiz"
+        android:name="com.example.urduhandwritingtutor.ui.slideshow.SlideshowFragment"
+        android:label="Take a Quiz"
+        tools:layout="@layout/fragment_slideshow" />
+
+    <fragment
+        android:id="@+id/nav_quizResults"
+        android:name="com.example.urduhandwritingtutor.ui.tools.ToolsFragment"
+        android:label="Quiz Results"
+        tools:layout="@layout/fragment_tools" />
+
+</navigation>

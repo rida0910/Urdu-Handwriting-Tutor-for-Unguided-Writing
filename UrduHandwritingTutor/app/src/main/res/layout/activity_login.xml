@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".LoginActivity">
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="Urdu Handwriting Tutor"
+        android:textColor="#ffff"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="Learn Urdu in a Smart Way!"
+        android:textColor="#ffff"
+        android:textSize="18sp"
+        android:layout_marginTop="95dp"/>
+
+
+
+    <EditText
+        android:id="@+id/Email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textView"
+        android:layout_marginBottom="16dp"
+        android:hint="Email Address"
+        android:inputType="textEmailAddress"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginTop="170dp"/>
+
+    <EditText
+        android:id="@+id/Password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Email"
+        android:layout_marginBottom="16dp"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:layout_marginLeft="32dp"
+        android:layout_marginRight="32dp" />
+
+
+
+    <Button
+        android:id="@+id/loginbtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Login"
+        android:layout_below="@id/Password"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/rounded_button"
+        android:textColor="#ffff"
+        android:layout_marginTop="80dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginLeft="100dp"
+        android:onClick="Login"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/loginbtn"
+        android:layout_margin="24dp"
+        android:layout_centerHorizontal="true">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A new User? "
+        android:layout_below="@id/loginbtn"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp" />
+    <TextView
+        android:id="@+id/register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/register"
+        android:layout_below="@id/loginbtn"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        android:textColor="#4e5f88"
+        android:textColorLink="@color/mycolor"/>
+    </LinearLayout>
+
+</RelativeLayout>

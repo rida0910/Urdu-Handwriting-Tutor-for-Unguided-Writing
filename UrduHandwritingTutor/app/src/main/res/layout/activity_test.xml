@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".TestActivity"
+    android:background="#a2a9bc"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/chartext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Test"
+        android:textAlignment="center"
+        android:textSize="50sp"
+        android:layout_centerHorizontal="true" />
+
+    <com.example.urduhandwritingtutor.CanvasView
+        android:id="@+id/canvas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="32dp"
+        android:layout_marginLeft="32dp"
+        android:background="@drawable/boardcopy"
+        android:layout_above="@id/line1"
+        android:layout_below="@id/chartext"/>
+
+    <LinearLayout
+        android:id="@+id/line1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/evaluate_test"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true">
+
+        <ImageButton
+            android:id="@+id/clearbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/start_test"
+            android:layout_margin="16dp"
+            android:src="@drawable/rubbishbin"
+            android:adjustViewBounds="true"
+            android:background="#a2a9bc"
+            android:onClick="clearCanvas"/>
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/evaluate_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Done"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/greencolorrounded_button"
+        android:padding="12dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginBottom="32dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:textSize="18sp"
+        android:onClick="done"/>
+</RelativeLayout>

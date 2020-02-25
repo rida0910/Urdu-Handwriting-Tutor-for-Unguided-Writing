@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FeedbackActivity">
+
+    <TextView
+        android:id="@+id/feedbacktxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Feedback"
+        android:textSize="32sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp"/>
+
+    <com.example.urduhandwritingtutor.CanvasView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/feedbacktxt"
+        android:layout_above="@id/nextbtn"
+        android:layout_margin="16dp" />
+
+    <!--<ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/feedbacktxt"
+        android:layout_above="@id/nextbtn"
+        android:layout_margin="16dp"
+        app:srcCompat = "@drawable/avd_anim_alif_two"/>-->
+
+
+    <Button
+        android:id="@+id/nextbtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Next"
+        android:background="@drawable/greencolorrounded_button"
+        android:layout_marginBottom="16dp"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"
+        android:layout_above="@id/completebtn"
+        android:onClick="next"/>
+
+    <Button
+        android:id="@+id/completebtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Complete"
+        android:background="@drawable/rounded_button"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="16dp"
+        android:textColor="#fff"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"
+        android:onClick="complete"/>
+
+
+</RelativeLayout>

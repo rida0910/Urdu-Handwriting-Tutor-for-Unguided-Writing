@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/mycolor"
+    android:orientation="vertical"
+    tools:context=".StartingActivity">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:weightSum="10">
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="254dp"
+            android:layout_height="247dp"
+            android:src="@drawable/logo"
+            android:layout_marginLeft="64dp"
+            android:layout_marginRight="64dp"
+            android:layout_weight="5"/>
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/logo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginBottom="35dp"
+            android:text="Learn Urdu in a Smart Way!"
+            android:textColor="#fff"
+            android:textSize="25sp"
+            android:layout_weight="3"/>
+
+        <TextView
+            android:id="@+id/text2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text"
+            android:layout_alignParentBottom="true"
+            android:text="Loading..."
+            android:textColor="#fff"
+            android:layout_marginLeft="164dp"
+            android:layout_marginRight="164dp"
+            android:layout_weight="2"/>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -19,7 +19,7 @@
                 android:pathData="M 11 5.8 L 11 5.85"
                 android:fillColor="#000000"
                 android:strokeColor="#000000"
-                android:strokeWidth="0.6"
+                android:strokeWidth="1"
                 android:strokeLineCap="round"/>
         </vector>
     </aapt:attr>

@@ -15,22 +15,28 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="32dp"/>
 
-    <com.example.urduhandwritingtutor.CanvasView
+    <!--<com.example.urduhandwritingtutor.CanvasView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/feedbacktxt"
         android:layout_above="@id/nextbtn"
-        android:layout_margin="16dp" />
+        android:layout_margin="16dp" />-->
 
-    <!--<ImageView
-        android:id="@+id/imageView"
-        android:layout_width="match_parent"
+
+    <TextView
+        android:id="@+id/scoretxt"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/feedbacktxt"
-        android:layout_above="@id/nextbtn"
-        android:layout_margin="16dp"
-        app:srcCompat = "@drawable/avd_anim_alif_two"/>-->
+        android:layout_above="@+id/nextbtn"
+        android:layout_below="@+id/feedbacktxt"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
 
+        android:layout_margin="200dp"
+        android:text="score"
+        android:textSize="32sp" />
 
     <Button
         android:id="@+id/nextbtn"

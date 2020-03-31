@@ -48,7 +48,7 @@ public class TestActivity extends AppCompatActivity {
         int randomInt = randomGenerator.nextInt(100) + 1;
         int i = bundle.getInt("Number");
         db.addevaluation(i, randomInt);
-
+        bundle.putInt("Score", randomInt);
         Intent intent = new Intent(TestActivity.this, FeedbackActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);

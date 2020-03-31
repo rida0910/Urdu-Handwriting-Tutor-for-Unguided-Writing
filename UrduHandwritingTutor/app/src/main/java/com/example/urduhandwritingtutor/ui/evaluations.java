@@ -21,7 +21,7 @@ public class evaluations extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        View root = inflater.inflate(R.layout.fragment_send, container, false);
+        View root = inflater.inflate(R.layout.fragment_evaluations, container, false);
         final TextView textView = root.findViewById(R.id.text_send);
         textView.setText("hahaha");
         return root;

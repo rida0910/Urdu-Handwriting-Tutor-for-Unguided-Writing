@@ -5,21 +5,21 @@
         <vector
             android:name="vector"
             android:width="24dp"
-            android:height="25dp"
+            android:height="19dp"
             android:viewportWidth="24"
-            android:viewportHeight="25">
+            android:viewportHeight="19">
             <path
                 android:name="path"
-                android:pathData="M 15.438 9.844 C 13.918 15.238 13.832 15.422 13.207 15.91 C 12.957 16.094 11.188 16.891 9.293 17.668 C 7.188 18.504 5.832 19.16 5.832 19.32 C 5.832 19.484 5.895 19.609 6 19.609 C 6.082 19.609 7.73 18.996 9.668 18.238 C 12.145 17.281 13.395 16.668 13.832 16.238 C 14.395 15.688 14.668 14.949 15.895 10.723 C 16.668 8.027 17.293 5.699 17.293 5.555 C 17.293 5.434 17.168 5.309 17 5.309 C 16.813 5.309 16.313 6.781 15.438 9.844 Z M 15.438 9.844"
+                android:pathData="M 14.664 5.66 C 14.641 5.676 14.578 5.828 14.531 5.996 C 14.484 6.164 14.434 6.348 14.414 6.41 C 14.383 6.508 14.281 6.852 14.191 7.191 C 14.172 7.258 14.113 7.461 14.063 7.645 C 14.012 7.82 13.961 8.004 13.949 8.043 C 13.941 8.082 13.891 8.254 13.844 8.426 C 13.758 8.719 13.59 9.324 13.492 9.715 C 13.188 10.895 13.078 11.02 11.945 11.477 C 11.789 11.539 11.613 11.613 11.551 11.645 C 11.492 11.668 11.234 11.773 10.977 11.875 C 10.441 12.09 10.297 12.152 10.16 12.223 C 10.109 12.254 10.051 12.273 10.023 12.273 C 10.004 12.273 9.895 12.313 9.785 12.367 C 9.68 12.418 9.566 12.457 9.539 12.457 C 9.512 12.457 9.434 12.504 9.375 12.559 C 9.289 12.637 9.266 12.676 9.285 12.738 C 9.328 12.875 9.535 12.844 10.012 12.633 C 10.574 12.395 10.512 12.418 11.066 12.203 C 11.332 12.098 11.566 11.996 11.586 11.98 C 11.605 11.961 11.641 11.949 11.664 11.949 C 11.734 11.949 12.531 11.602 12.816 11.449 C 13.371 11.152 13.531 10.883 13.832 9.715 C 13.895 9.473 13.957 9.238 13.973 9.188 C 14.016 9.063 14.207 8.379 14.316 7.953 C 14.352 7.82 14.395 7.684 14.41 7.645 C 14.426 7.605 14.523 7.27 14.621 6.898 C 14.719 6.531 14.816 6.176 14.84 6.117 C 14.855 6.059 14.883 5.941 14.895 5.859 C 14.914 5.73 14.906 5.703 14.844 5.668 C 14.754 5.621 14.727 5.621 14.664 5.66 Z M 14.664 5.66"
                 android:fillColor="#c1c1c1"
                 android:strokeColor="#c1c1c1"
-                android:strokeWidth="1"/>
+                android:strokeWidth="0.6"/>
             <path
                 android:name="circle"
-                android:pathData="M 17 5.6 L 17 5.65"
+                android:pathData="M 14.8 5.7 L 14.8 5.75"
                 android:fillColor="#000000"
                 android:strokeColor="#000000"
-                android:strokeWidth="1.4"
+                android:strokeWidth="1"
                 android:strokeLineCap="round"/>
         </vector>
     </aapt:attr>
@@ -28,17 +28,17 @@
             <set>
                 <objectAnimator
                     android:propertyName="pathData"
-                    android:duration="800"
-                    android:valueFrom="M 17 5.6 L 17 5.65"
-                    android:valueTo="M 14 15.8 L 14 15.85"
+                    android:duration="1000"
+                    android:valueFrom="M 14.8 5.7 L 14.8 5.75"
+                    android:valueTo="M 13.2 10.9 L 13.2 10.95"
                     android:valueType="pathType"
                     android:interpolator="@android:interpolator/fast_out_slow_in"/>
                 <objectAnimator
                     android:propertyName="pathData"
-                    android:startOffset="800"
-                    android:duration="700"
-                    android:valueFrom="M 14 15.8 L 14 15.85"
-                    android:valueTo="M 6 19.4 L 6 19.45"
+                    android:startOffset="1000"
+                    android:duration="1000"
+                    android:valueFrom="M 13.2 10.9 L 13.2 10.95"
+                    android:valueTo="M 9.3 12.7 L 9.3 12.75"
                     android:valueType="pathType"
                     android:interpolator="@android:interpolator/fast_out_slow_in"/>
             </set>

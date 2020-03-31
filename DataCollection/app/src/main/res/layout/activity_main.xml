@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
+
+        <EditText
+            android:id="@+id/Nametxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:layout_centerInParent="false"
+            android:layout_centerVertical="false"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:hint="Name"
+            android:textSize="18sp" />
+
+
+        <EditText
+            android:id="@+id/Agetxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:hint="Age"
+            android:inputType="number"
+            android:textSize="18sp"
+            android:layout_below="@id/Nametxt"/>
+
+        <EditText
+            android:id="@+id/Phonetxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:hint="Phone number"
+            android:inputType="number"
+            android:textSize="18sp"
+            android:layout_below="@id/Agetxt"/>
+
+        <EditText
+            android:id="@+id/Citytxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:layout_centerInParent="false"
+            android:layout_centerVertical="false"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:hint="Base City"
+            android:textSize="18sp"
+            android:layout_below="@id/Phonetxt"/>
+
+        <RadioGroup
+            android:id="@+id/radioSex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/Citytxt"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_centerHorizontal="true">
+
+            <RadioButton
+                android:id="@+id/radioMale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Male"
+                android:textAllCaps="true"
+                android:textSize="14sp"
+                android:layout_marginRight="64dp"/>
+
+            <RadioButton
+                android:id="@+id/radioFemale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Female"
+                android:textAllCaps="true"
+                android:textSize="14sp" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/Whandednesstxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Writing Hand:"
+            android:layout_below="@id/radioSex"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="16dp"
+            android:textSize="18sp"/>
+        <RadioGroup
+            android:id="@+id/Whandedness"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/Whandednesstxt"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_centerHorizontal="true">
+
+            <RadioButton
+                android:id="@+id/rightHand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Right"
+                android:textAllCaps="true"
+                android:textSize="14sp"
+                android:layout_marginRight="64dp"/>
+
+            <RadioButton
+                android:id="@+id/lefthand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Left"
+                android:textAllCaps="true"
+                android:textSize="14sp" />
+
+        </RadioGroup>
+
+
+        <TextView
+            android:id="@+id/Dhandednesstxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dominant Hand:"
+            android:layout_below="@id/Whandedness"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="16dp"
+            android:textSize="18sp"/>
+        <RadioGroup
+            android:id="@+id/Dhandedness"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/Dhandednesstxt"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_centerHorizontal="true">
+
+            <RadioButton
+                android:id="@+id/rightHand1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Right"
+                android:textAllCaps="true"
+                android:textSize="14sp"
+                android:layout_marginRight="64dp"/>
+
+            <RadioButton
+                android:id="@+id/lefthand1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Left"
+                android:textAllCaps="true"
+                android:textSize="14sp" />
+
+        </RadioGroup>
+
+        <!--<EditText
+            android:id="@+id/Qualificationtxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:layout_centerInParent="false"
+            android:layout_centerVertical="false"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:hint="Qualification"
+            android:textSize="18sp"
+            android:layout_below="@id/Dhandedness"/>-->
+
+        <Spinner
+            android:id="@+id/Qualificationtxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:textSize="1sp"
+            style="@android:style/Widget.Holo.Light.DropDownItem.Spinner"
+            android:layout_below="@id/Dhandedness" />
+
+        <EditText
+            android:id="@+id/Locationtxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="false"
+            android:layout_centerInParent="false"
+            android:layout_centerVertical="false"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:hint="Current Location"
+            android:textSize="18sp"
+            android:layout_below="@id/Qualificationtxt"/>
+
+        <Button
+            android:id="@+id/NextBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Next"
+            android:onClick="Next"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="64dp"
+            android:layout_below="@id/Locationtxt"
+            android:layout_centerHorizontal="true"/>
+
+    </RelativeLayout>
+</androidx.core.widget.NestedScrollView>

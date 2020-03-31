@@ -5,88 +5,80 @@
         <vector
             android:name="vector"
             android:width="24dp"
-            android:height="30dp"
+            android:height="19dp"
             android:viewportWidth="24"
-            android:viewportHeight="30">
+            android:viewportHeight="19">
             <path
                 android:name="path"
-                android:pathData="M 13.199 6.879 C 12.668 7.102 11.445 8.988 10.977 10.273 C 10.355 12.004 10.668 14.023 11.645 14.688 C 12.199 15.066 13.488 14.844 14.512 14.203 L 15.555 13.535 L 15.555 14.711 C 15.555 19.348 12.18 23.055 6.555 24.586 C 5.332 24.918 5 25.098 5 25.43 C 5 25.785 5.133 25.828 5.891 25.762 C 8.09 25.586 11.621 23.785 13.512 21.922 C 15.891 19.594 16.801 16.773 16.621 12.316 C 16.512 9.785 16 8.012 15.156 7.234 C 14.645 6.789 13.777 6.633 13.199 6.879 Z M 14.645 8.344 C 15.199 9.055 15.602 10.453 15.512 11.359 C 15.465 11.848 15.18 12.27 14.445 12.871 C 13.199 13.914 12.602 14.113 12.133 13.645 C 11.266 12.781 11.555 10.895 12.891 8.809 C 13.645 7.609 14 7.523 14.645 8.344 Z M 14.645 8.344"
+                android:pathData="M 12.535 5.918 C 12.395 5.969 12.176 6.246 11.961 6.652 C 11.711 7.137 11.656 7.328 11.656 7.809 C 11.652 8.313 11.672 8.387 11.836 8.574 C 12.02 8.781 12.25 8.848 12.535 8.773 C 12.793 8.703 12.957 8.613 13.199 8.406 C 13.301 8.316 13.395 8.246 13.41 8.246 C 13.445 8.246 13.398 9.285 13.355 9.363 C 13.34 9.402 13.289 9.563 13.242 9.723 C 13.195 9.883 13.113 10.09 13.059 10.184 C 13.008 10.273 12.961 10.359 12.961 10.375 C 12.961 10.402 12.828 10.598 12.762 10.672 C 12.746 10.695 12.676 10.77 12.621 10.84 C 12.473 11.012 11.984 11.438 11.805 11.559 C 11.617 11.68 11.203 11.906 10.996 12.004 C 10.75 12.117 10.129 12.328 9.953 12.352 C 9.691 12.395 9.594 12.461 9.594 12.609 C 9.594 12.723 9.738 12.785 9.883 12.738 C 9.953 12.719 10.07 12.691 10.148 12.676 C 10.227 12.664 10.309 12.641 10.328 12.621 C 10.352 12.609 10.422 12.586 10.492 12.574 C 10.563 12.566 10.711 12.512 10.816 12.461 C 10.922 12.414 11.055 12.359 11.109 12.344 C 11.258 12.309 11.707 12.066 12.039 11.84 C 12.414 11.586 12.906 11.121 13.117 10.82 C 13.289 10.578 13.531 10.082 13.531 9.984 C 13.531 9.953 13.547 9.918 13.563 9.91 C 13.582 9.895 13.605 9.816 13.621 9.73 C 13.637 9.645 13.66 9.551 13.68 9.52 C 13.719 9.441 13.785 8.551 13.785 8.117 C 13.785 7.031 13.547 6.246 13.125 5.965 C 13.02 5.895 12.684 5.867 12.535 5.918 Z M 13.016 6.352 C 13.133 6.461 13.262 6.754 13.352 7.109 C 13.477 7.621 13.473 7.645 13.145 7.949 C 12.703 8.367 12.391 8.508 12.168 8.391 C 11.973 8.281 11.93 7.758 12.078 7.313 C 12.227 6.875 12.457 6.441 12.613 6.309 C 12.711 6.219 12.898 6.238 13.016 6.352 Z M 13.016 6.352"
                 android:fillColor="#c1c1c1"
                 android:strokeColor="#c1c1c1"
-                android:strokeWidth="1"/>
+                android:strokeWidth="0.6"/>
             <path
-                android:name="circle"
-                android:pathData="M 15 13.1 L 15 13.15"
+                android:name="path_1"
+                android:pathData="M 13.5 8 L 13.5 8.05"
                 android:fillColor="#000000"
                 android:strokeColor="#000000"
-                android:strokeWidth="1.6"
+                android:strokeWidth="1"
                 android:strokeLineCap="round"/>
         </vector>
     </aapt:attr>
-    <target android:name="circle">
+    <target android:name="path_1">
         <aapt:attr name="android:animation">
             <set>
                 <objectAnimator
                     android:propertyName="pathData"
-                    android:duration="400"
-                    android:valueFrom="M 15 13.1 L 15 13.15"
-                    android:valueTo="M 12.3 14.4 L 12.3 14.45"
-                    android:valueType="pathType"
-                    android:interpolator="@android:interpolator/fast_out_slow_in"/>
-                <objectAnimator
-                    android:propertyName="pathData"
-                    android:startOffset="400"
                     android:duration="500"
-                    android:valueFrom="M 12.3 14.4 L 12.3 14.45"
-                    android:valueTo="M 11.1 12 L 11.1 12.05"
+                    android:valueFrom="M 13.5 8 L 13.5 8.05"
+                    android:valueTo="M 12 8.5 L 12 8.55"
                     android:valueType="pathType"
                     android:interpolator="@android:interpolator/fast_out_slow_in"/>
                 <objectAnimator
                     android:propertyName="pathData"
-                    android:startOffset="900"
+                    android:startOffset="500"
+                    android:duration="500"
+                    android:valueFrom="M 12 8.5 L 12 8.55"
+                    android:valueTo="M 12 7 L 12 7.05"
+                    android:valueType="pathType"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"/>
+                <objectAnimator
+                    android:propertyName="pathData"
+                    android:startOffset="1000"
                     android:duration="600"
-                    android:valueFrom="M 11.1 12 L 11.1 12.05"
-                    android:valueTo="M 13.6 7 L 13.6 7.05"
+                    android:valueFrom="M 12 7 L 12 7.05"
+                    android:valueTo="M 13 6 L 13 6.05"
                     android:valueType="pathType"
                     android:interpolator="@android:interpolator/fast_out_slow_in"/>
                 <objectAnimator
                     android:propertyName="pathData"
-                    android:startOffset="1500"
-                    android:duration="400"
-                    android:valueFrom="M 13.6 7 L 13.6 7.05"
-                    android:valueTo="M 15.8 8.9 L 15.8 8.95"
+                    android:startOffset="1600"
+                    android:duration="600"
+                    android:valueFrom="M 13 6 L 13 6.05"
+                    android:valueTo="M 13.7 7.5 L 13.7 7.55"
                     android:valueType="pathType"
                     android:interpolator="@android:interpolator/fast_out_slow_in"/>
                 <objectAnimator
                     android:propertyName="pathData"
-                    android:startOffset="1900"
+                    android:startOffset="2200"
+                    android:duration="600"
+                    android:valueFrom="M 13.7 7.5 L 13.7 7.55"
+                    android:valueTo="M 13.4 10 L 13.4 10.05"
+                    android:valueType="pathType"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"/>
+                <objectAnimator
+                    android:propertyName="pathData"
+                    android:startOffset="2800"
+                    android:duration="600"
+                    android:valueFrom="M 13.4 10 L 13.4 10.05"
+                    android:valueTo="M 12 11.7 L 12 11.75"
+                    android:valueType="pathType"
+                    android:interpolator="@android:interpolator/fast_out_slow_in"/>
+                <objectAnimator
+                    android:propertyName="pathData"
+                    android:startOffset="3400"
                     android:duration="700"
-                    android:valueFrom="M 15.8 8.9 L 15.8 8.95"
-                    android:valueTo="M 16 16.5 L 16 16.55"
-                    android:valueType="pathType"
-                    android:interpolator="@android:interpolator/fast_out_slow_in"/>
-                <objectAnimator
-                    android:propertyName="pathData"
-                    android:startOffset="2600"
-                    android:duration="600"
-                    android:valueFrom="M 16 16.5 L 16 16.55"
-                    android:valueTo="M 14 20.7 L 14 20.75"
-                    android:valueType="pathType"
-                    android:interpolator="@android:interpolator/fast_out_slow_in"/>
-                <objectAnimator
-                    android:propertyName="pathData"
-                    android:startOffset="3200"
-                    android:duration="500"
-                    android:valueFrom="M 14 20.7 L 14 20.75"
-                    android:valueTo="M 10.5 23.5 L 10.5 23.55"
-                    android:valueType="pathType"
-                    android:interpolator="@android:interpolator/fast_out_slow_in"/>
-                <objectAnimator
-                    android:propertyName="pathData"
-                    android:startOffset="3700"
-                    android:duration="600"
-                    android:valueFrom="M 10.5 23.5 L 10.5 23.55"
-                    android:valueTo="M 5.3 25.4 L 5.3 25.45"
+                    android:valueFrom="M 12 11.7 L 12 11.75"
+                    android:valueTo="M 9.7 12.6 L 9.7 12.65"
                     android:valueType="pathType"
                     android:interpolator="@android:interpolator/fast_out_slow_in"/>
             </set>

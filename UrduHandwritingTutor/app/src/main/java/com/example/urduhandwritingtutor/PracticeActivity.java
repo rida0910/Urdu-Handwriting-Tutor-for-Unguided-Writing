@@ -186,7 +186,7 @@ public class PracticeActivity extends AppCompatActivity {
         }
         else if (i == 9)
         {
-            an = AnimatedVectorDrawableCompat.create(this, R.drawable.avd_anim_hay_test);
+            an = AnimatedVectorDrawableCompat.create(this, R.drawable.avd_anim_hay);
         }
         else if (i == 10)
         {
@@ -230,11 +230,11 @@ public class PracticeActivity extends AppCompatActivity {
         }
         else if (i == 20)
         {
-            an = AnimatedVectorDrawableCompat.create(this, R.drawable.avd_anim_swad);
+            an = AnimatedVectorDrawableCompat.create(this, R.drawable.avd_anim_suad);
         }
         else if (i == 21)
         {
-            an = AnimatedVectorDrawableCompat.create(this, R.drawable.avd_anim_zwad);
+            an = AnimatedVectorDrawableCompat.create(this, R.drawable.avd_anim_zuad);
         }
         else if (i == 22)
         {
@@ -246,7 +246,7 @@ public class PracticeActivity extends AppCompatActivity {
         }
         else if (i == 24)
         {
-            an = AnimatedVectorDrawableCompat.create(this, R.drawable.avd_anim_ain);
+            an = AnimatedVectorDrawableCompat.create(this, R.drawable.avd_anim_ayin);
         }
         else if (i == 25)
         {

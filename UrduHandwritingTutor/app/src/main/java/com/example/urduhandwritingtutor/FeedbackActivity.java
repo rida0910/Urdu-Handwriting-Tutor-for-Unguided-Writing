@@ -9,6 +9,7 @@ import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 public class FeedbackActivity extends AppCompatActivity {
 
@@ -17,14 +18,18 @@ public class FeedbackActivity extends AppCompatActivity {
     String character;
     int i;
     Button nextbtn;
+    TextView scoretxt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
-
+        bundle = getIntent().getExtras();
+        scoretxt = (TextView)findViewById(R.id.scoretxt);
+        int score = bundle.getInt("Score");
+        scoretxt.setText(score + "");
 
         nextbtn = (Button)findViewById(R.id.nextbtn);
-        bundle = getIntent().getExtras();
+
         stuff = bundle.getString("character");
         i = bundle.getInt("Number");
         if (i == 37)

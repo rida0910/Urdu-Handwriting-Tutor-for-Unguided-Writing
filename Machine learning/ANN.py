@@ -36,10 +36,12 @@ y = to_categorical(y)
 from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.25, random_state = 0)
 
-from sklearn.preprocessing import StandardScaler
-sc = StandardScaler()
-X_train = sc.fit_transform(X_train)
-X_test = sc.fit_transform(X_test)
+# =============================================================================
+# from sklearn.preprocessing import StandardScaler
+# sc = StandardScaler()
+# X_train = sc.fit_transform(X_train)
+# X_test = sc.fit_transform(X_test)
+# =============================================================================
 
 import keras
 from keras.models import Sequential
@@ -47,8 +49,8 @@ from keras.layers import Dense
 
 classifier = Sequential()
 classifier.add(Dense(output_dim = 61, init = 'uniform', activation = 'relu', input_dim = 61))
-classifier.add(Dense(output_dim = 32, init = 'uniform', activation = 'relu'))
-#classifier.add(Dense(output_dim = 122, init = 'uniform', activation = 'relu'))
+classifier.add(Dense(output_dim = 122, init = 'uniform', activation = 'relu'))
+classifier.add(Dense(output_dim = 122, init = 'uniform', activation = 'relu'))
 #classifier.add(Dense(output_dim = 122, init = 'uniform', activation = 'relu'))
 classifier.add(Dense(output_dim = 38, init = 'uniform', activation='softmax'))
 classifier.compile(optimizer = 'adam', loss='categorical_crossentropy', metrics = ['accuracy'])
@@ -72,20 +74,6 @@ print("Precision:",metrics.precision_score(y_test, y_pred.round(), average='micr
 print("Recall:",metrics.recall_score(y_test, y_pred.round(), average='micro'))
 
 
-# save model and architecture to single file
-classifier.save("model.tflite")
-
-
-
-
-
-
-
-
-
-
-
-
 
 from tensorflow.compat.v1 import lite
 keras_file = "ANN.h5"
@@ -104,7 +92,7 @@ import pandas as pd
 from keras.utils import to_categorical
  
 # load model
-model = load_model('model.tflite')
+model = load_model('ANN.h5')
 # load dataset
 datasett = pd.read_csv("D:\\ML\\PreprocessedTestData.csv")
 
@@ -114,7 +102,7 @@ y_val = datasett.iloc[:, 61].values
 y_val = to_categorical(y_val)
 
 
-X_val = sc.fit_transform(X_val)
+#X_val = sc.fit_transform(X_val)
 
 # evaluate the model
 score = model.evaluate(X_val, y_val, verbose=0)

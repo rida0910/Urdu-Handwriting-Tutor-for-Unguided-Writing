@@ -16,9 +16,11 @@ y_val = datasett.iloc[:, 61].values
 
 y_val = to_categorical(y_val)
 
-from sklearn.preprocessing import StandardScaler
-sc = StandardScaler()
-X_val = sc.fit_transform(X_val)
+# =============================================================================
+# from sklearn.preprocessing import StandardScaler
+# sc = StandardScaler()
+# X_val = sc.fit_transform(X_val)
+# =============================================================================
 
 # evaluate the model
 # =============================================================================

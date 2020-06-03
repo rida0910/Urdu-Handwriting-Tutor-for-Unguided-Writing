@@ -2,14 +2,12 @@ package com.example.urduhandwritingtutor;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import java.net.PasswordAuthentication;
-
-import javax.xml.validation.Validator;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyDbHandler extends SQLiteOpenHelper {
 
@@ -29,6 +27,7 @@ public class MyDbHandler extends SQLiteOpenHelper {
     public static final String COLUMN_EVALUATIONID = "Id";
     public static final String COLUMN_CHARACTER = "Character";
     public static final String COLUMN_PERCENTAGECORRECTNESS = "Percentage_Correctness";
+    public static final String COLUMN_FEEDBACK = "Feedback";
 
 
 
@@ -53,8 +52,9 @@ public class MyDbHandler extends SQLiteOpenHelper {
 
         query = "CREATE TABLE " + TABLE_EVALUATIONS + "(" +
                 COLUMN_EVALUATIONID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                COLUMN_CHARACTER + " INTEGER NOT NULL, " +
+                COLUMN_CHARACTER + " TEXT NOT NULL, " +
                 COLUMN_PERCENTAGECORRECTNESS + " INTEGER NOT NULL, " +
+                COLUMN_FEEDBACK + " TEXT NOT NULL, " +
                 COLUMN_USERID + " INTEGER NOT NULL, " +
                 "FOREIGN KEY(" + COLUMN_USERID + ") REFERENCES " + TABLE_USERDATA + "("+COLUMN_USERID+ "));";
 
@@ -169,32 +169,38 @@ public class MyDbHandler extends SQLiteOpenHelper {
         db.execSQL(query);
     }
 
-    public long addevaluation(int Char, int percentage_correctness) {
+    public long addevaluation(String Char, int percentage_correctness, String Feedback) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         long rowid;
         values.put(COLUMN_CHARACTER, Char);
         values.put(COLUMN_PERCENTAGECORRECTNESS, percentage_correctness);
         values.put(COLUMN_USERID, getLoggedInUser());
+        values.put(COLUMN_FEEDBACK, Feedback);
         rowid = db.insert(TABLE_EVALUATIONS, null, values);
         db.close();
         return rowid;
     }
 
-    /*private void displayData() {
+
+
+    public evaluation_class getEvaluations() {
         SQLiteDatabase db = getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM  Evaluations",null);
+        List<String> TestChars = new ArrayList<>();
+        List<String> Feedback = new ArrayList<>();
+        List<Integer> Scores = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT * FROM  Evaluations JOIN Users ON Evaluations.UserId = Users.UserId WHERE State = 'logged_in'",null);
         if (cursor.moveToFirst()) {
             do {
-                Id.add(cursor.getString(cursor.getColumnIndex("Id")));
-                Name.add(cursor.getString(cursor.getColumnIndex("Username")));
-                MailId.add(cursor.getString(cursor.getColumnIndex("Mailid")));
-                Age.add(cursor.getString(cursor.getColumnIndex("Age")));
+                TestChars.add(cursor.getString(cursor.getColumnIndex(COLUMN_CHARACTER)));
+                Feedback.add(cursor.getString(cursor.getColumnIndex(COLUMN_FEEDBACK)));
+                Scores.add(cursor.getInt(cursor.getColumnIndex(COLUMN_PERCENTAGECORRECTNESS)));
             } while (cursor.moveToNext());
         }
-        CustomAdapter ca = new CustomAdapter(ShowdataListview.this,Id, Name,MailId,Age);
-        lv.setAdapter(ca);
+
         //code to set adapter to populate list
         cursor.close();
-    }*/
+        evaluation_class evaluations = new evaluation_class(TestChars, Scores, Feedback);
+        return evaluations;
+    }
 }

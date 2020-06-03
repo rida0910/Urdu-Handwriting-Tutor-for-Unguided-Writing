@@ -1,15 +1,17 @@
 package com.example.urduhandwritingtutor;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-import android.graphics.drawable.Animatable;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+
+import com.example.urduhandwritingtutor.ui.evaluations;
 
 public class FeedbackActivity extends AppCompatActivity {
 
@@ -19,23 +21,41 @@ public class FeedbackActivity extends AppCompatActivity {
     int i;
     Button nextbtn;
     TextView scoretxt;
+    RatingBar ratingBar;
+    TextView feedbacktxt;
+    Button CompleteBtn;
+    String ComingFrom;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feedback);
         bundle = getIntent().getExtras();
         scoretxt = (TextView)findViewById(R.id.scoretxt);
+        ratingBar = findViewById(R.id.rating);
         int score = bundle.getInt("Score");
-        scoretxt.setText(score + "");
-
+        scoretxt.setText(String.valueOf(score));
+        feedbacktxt = findViewById(R.id.feedback);
+        feedbacktxt.setText("Number of Strokes: Correct\n\nOrder of Strokes: correct\n\nStroke Direction: Correct" );
+        ratingBar.setRating(5);
         nextbtn = (Button)findViewById(R.id.nextbtn);
+        CompleteBtn = findViewById(R.id.completebtn);
 
-        stuff = bundle.getString("character");
-        i = bundle.getInt("Number");
-        if (i == 37)
+        ComingFrom = bundle.getString("ComingFrom");
+        if (ComingFrom.equals("evaluations"))
         {
             nextbtn.setVisibility(View.GONE);
+            CompleteBtn.setText("Go Back");
+
         }
+        else {
+            stuff = bundle.getString("character");
+            i = bundle.getInt("Number");
+            if (i == 37) {
+                nextbtn.setVisibility(View.GONE);
+            }
+        }
+
     }
 
     public void next(View view)
@@ -51,10 +71,19 @@ public class FeedbackActivity extends AppCompatActivity {
 
     public void complete(View view)
     {
-        Intent intent = new Intent(FeedbackActivity.this, MainActivity.class);
-        intent.putExtras(bundle);
-        startActivity(intent);
+        if (ComingFrom == "TestActivity") {
+            Intent intent = new Intent(FeedbackActivity.this, MainActivity.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
+        else if (ComingFrom == "evaluations")
+        {
+            Fragment fragment = new evaluations();
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
+        }
         FeedbackActivity.this.finish();
+
     }
 
     public String getCharacter(int i)

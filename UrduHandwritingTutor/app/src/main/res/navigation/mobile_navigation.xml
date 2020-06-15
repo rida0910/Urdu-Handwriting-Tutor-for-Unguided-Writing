@@ -17,11 +17,12 @@
         android:label="Evaluations"
         tools:layout="@layout/fragment_evaluations" />
 
-    <fragment
+    <activity
         android:id="@+id/nav_quiz"
-        android:name="com.example.urduhandwritingtutor.ui.slideshow.SlideshowFragment"
+        android:name="com.example.urduhandwritingtutor.TestActivity"
         android:label="Take a Quiz"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/activity_test" />
+
 
     <fragment
         android:id="@+id/nav_quizResults"

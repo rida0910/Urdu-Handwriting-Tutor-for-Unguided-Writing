@@ -1,34 +1,19 @@
 package com.example.urduhandwritingtutor;
 
+import android.content.Intent;
+import android.graphics.Typeface;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat;
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
-
-import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
-import android.graphics.Typeface;
-import android.graphics.drawable.Animatable;
-import android.graphics.drawable.Animatable2;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
-import android.icu.util.ValueIterator;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.PopupMenu;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.List;
 
 public class PracticeActivity extends AppCompatActivity {
 
@@ -102,6 +87,7 @@ public class PracticeActivity extends AppCompatActivity {
     public void start_test(View view)
     {
         Intent intent = new Intent(PracticeActivity.this, TestActivity.class);
+        bundle.putString("ComingFrom", "PracticeActivity");
         intent.putExtras(bundle);
         startActivity(intent);
         PracticeActivity.this.finish();

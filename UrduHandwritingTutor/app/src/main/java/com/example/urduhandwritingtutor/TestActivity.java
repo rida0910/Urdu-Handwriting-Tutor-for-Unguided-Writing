@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
@@ -13,7 +14,9 @@ import org.tensorflow.contrib.android.TensorFlowInferenceInterface;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
 
 public class TestActivity extends AppCompatActivity {
 
@@ -22,6 +25,11 @@ public class TestActivity extends AppCompatActivity {
     Bundle bundle;
     MyDbHandler db;
     TextView charText;
+    String ComingFrom;
+    Button nextBtn;
+    List<String> characters;
+    String character;
+    int num;
     private TensorFlowInferenceInterface inferenceInterface;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,11 +41,34 @@ public class TestActivity extends AppCompatActivity {
         canvasView = (CanvasView)findViewById(R.id.canvas);
         db = new MyDbHandler(this, "UrduHandwritingTutor.db", null, 1);
         bundle = getIntent().getExtras();
-        stuff = bundle.getString("character");
+        ComingFrom = bundle.getString("ComingFrom");
+        nextBtn = findViewById(R.id.evaluate);
 
-        charText = findViewById(R.id.chartext);
-        charText.setText("Test: " + stuff);
-
+        if (ComingFrom == "PracticeActivity")
+        {
+            stuff = bundle.getString("character");
+            charText = findViewById(R.id.chartext);
+            charText.setText("Test: " + stuff);
+        }
+        else
+        {
+            evaluation_class evaluations = db.getEvaluations();
+            HashSet<String> charactersSet = new HashSet<>(evaluations.Characters);
+            if (charactersSet.size() < 5)
+            {
+                charText.setText("You need to learn atleast 5 characters to unlock this feature!");
+                nextBtn.setVisibility(View.GONE);
+            }
+            else
+            {
+                characters = new ArrayList<>(charactersSet);
+                Random rand = new Random();
+                character = characters.get(rand.nextInt(characters.size()));
+                charText.setText("Write " + character);
+                characters.remove(character);
+                num = 2;
+            }
+        }
         inferenceInterface = new TensorFlowInferenceInterface(getAssets(), "ANN.pb");
 
     }
@@ -56,9 +87,6 @@ public class TestActivity extends AppCompatActivity {
 
     public void done(View view)
     {
-        //Random randomGenerator = new Random();
-        //int randomInt = randomGenerator.nextInt(100) + 1;
-
         float[] floatArray = PreprocessData(canvasView);
         float[] output = predict(floatArray);
 
@@ -67,7 +95,10 @@ public class TestActivity extends AppCompatActivity {
             result.add(f);
         }
 
-        float confidence = Collections.max(result);
+        //float confidence = Collections.max(result);
+
+        int i = bundle.getInt("Number");
+        float confidence = result.get(i);
 
         String Feedback = "Number of Strokes: Correct\n\nOrder of Strokes: correct\n\nStroke Direction: Correct";
         db.addevaluation(stuff, Math.round(confidence*100), Feedback);
@@ -130,13 +161,15 @@ public class TestActivity extends AppCompatActivity {
             return XYCoord;
         }
 
-        double t = FindAvgSpacing(X, Y) - 3;
+        double t = 5;
+
+
         List<Float> Resampled_X = new ArrayList<>();
         List<Float> Resampled_Y = new ArrayList<>();
         Resampled_X.add(X.get(0));
         Resampled_Y.add(Y.get(0));
 
-        int j = X.size()/count;
+        int j = (X.size()/count) + 1;
         int i = j;
 
         while (Resampled_X.size() < count && i + j < X.size() - 1)
@@ -152,20 +185,57 @@ public class TestActivity extends AppCompatActivity {
         Resampled_Y.add(Y.get(Y.size() - 1));
 
 
-        while (Resampled_X.size() < count)
+        while (Resampled_X.size() <= count)
         {
             Resampled_X.add(X.get(X.size() - 1));
             Resampled_Y.add(Y.get(Y.size() - 1));
         }
 
 
-        XYCoord.XCoord = Resampled_X;
-        XYCoord.YCoord = Resampled_Y;
+        XYCoord.XCoord = Resampled_X.subList(0, count);
+        XYCoord.YCoord = Resampled_Y.subList(0, count);
         return XYCoord;
     }
 
 
-    public List<Float> normalize(List<Float> list)
+    public XYCoord Smooth(List<Float> X, List<Float> Y)
+    {
+        XYCoord XYCoord = new XYCoord();
+
+        if (X.size() < 5)
+        {
+            XYCoord.XCoord = X;
+            XYCoord.YCoord = Y;
+        }
+        else
+        {
+            List<Float> SmoothX = new ArrayList<>();
+            List<Float> SmoothY = new ArrayList<>();
+            SmoothX.add(X.get(0));
+            SmoothY.add(Y.get(0));
+            SmoothX.add(X.get(1));
+            SmoothY.add(Y.get(1));
+
+            for (int i = 2; i < X.size() - 2; i++)
+            {
+                Float xm = (X.get(i-2) + X.get(i-1) + X.get(i) + X.get(i+1) + X.get(i+2))/5;
+                Float ym = (Y.get(i-2) + Y.get(i-1) + Y.get(i) + Y.get(i+1) + Y.get(i+2))/5;
+                SmoothX.add(xm);
+                SmoothY.add(ym);
+            }
+            SmoothX.add(X.get(X.size() - 2));
+            SmoothY.add(Y.get(Y.size() - 2));
+            SmoothX.add(X.get(X.size() - 1));
+            SmoothY.add(Y.get(Y.size() - 1));
+
+            XYCoord.XCoord = SmoothX;
+            XYCoord.YCoord = SmoothY;
+        }
+
+        return XYCoord;
+    }
+
+    public List<Float> normalizeLIst(List<Float> list)
     {
         List<Float> normalized_list = new ArrayList<>();
         for (int i = 0; i < list.size(); i++)
@@ -175,14 +245,22 @@ public class TestActivity extends AppCompatActivity {
         return normalized_list;
     }
 
+    public List<Float> normalize(List<Float> X, int factor) {
+        List<Float> normalized_list = new ArrayList<>();
+        for (int i = 0; i < X.size(); i++) {
+            normalized_list.add(X.get(i) / factor);
+        }
+        return normalized_list;
+    }
+
     private float[] predict(float[] input){
         // model has 38 output neurons
         float output[] = new float[38];
 
         // feed network with input of shape (1,input.length) = (1,2)
-        inferenceInterface.feed("dense_10_input:0", input, 1, input.length);
-        inferenceInterface.run(new String[]{"dense_12/Softmax:0"});
-        inferenceInterface.fetch("dense_12/Softmax:0", output);
+        inferenceInterface.feed("dense_4_input:0", input, 1, input.length);
+        inferenceInterface.run(new String[]{"dense_6/Softmax:0"});
+        inferenceInterface.fetch("dense_6/Softmax:0", output);
 
         // return prediction
         return output;
@@ -193,6 +271,7 @@ public class TestActivity extends AppCompatActivity {
         List<Float> listX = new ArrayList<>();
         List<Float> listY = new ArrayList<>();
         List<Long> listT = new ArrayList<>();
+        //db.addStrokeData(cv);
         for (Float f : cv.listX)
         {
             listX.add(f);
@@ -206,7 +285,9 @@ public class TestActivity extends AppCompatActivity {
             listT.add(f);
         }
 
-
+        //listX = cv.listX;
+        //listY = cv.listY;
+        //listT = cv.TimeList;
         cv.clearCanvas();
         //getting the dots and their indices
         List<Long> dots_time = new ArrayList<>();
@@ -228,6 +309,7 @@ public class TestActivity extends AppCompatActivity {
 
         List<Float> ResampledX = new ArrayList<>();
         List<Float> ResampledY = new ArrayList<>();
+        XYCoord SmoothedXY = new XYCoord();
         if (dots_indices.size() != 0)
         {
             List<Float> listX_withoutDot = new ArrayList<>();
@@ -295,16 +377,22 @@ public class TestActivity extends AppCompatActivity {
 
             float[] ResampledX_dot_array = ListToArray(ResampledX_dot);
 
+            SmoothedXY = Smooth(ResampledX, ResampledY);
+
             for (Float f : ResampledX_dot_array)
             {
-                ResampledX.add(f);
+                SmoothedXY.XCoord.add(f);
             }
 
             float[] ResampledY_dot_array = ListToArray(ResampledY_dot);
             for (Float f : ResampledY_dot_array)
             {
-                ResampledY.add(f);
+                SmoothedXY.YCoord.add(f);
             }
+
+            //ResampledX = Final_X_Coord;
+            //ResampledY = Final_Y_Coord;
+
         }
 
         else
@@ -313,11 +401,14 @@ public class TestActivity extends AppCompatActivity {
             XYCoord = Resample(listX, listY, 50);
             ResampledX = XYCoord.XCoord;
             ResampledY = XYCoord.YCoord;
-
+            SmoothedXY = Smooth(ResampledX, ResampledY);
         }
 
-        List<Float> Normalized_X = normalize(ResampledX);
-        List<Float> Normalized_Y = normalize(ResampledY);
+        int h = cv.getHeight();
+        int w = cv.getWidth();
+
+        List<Float> Normalized_X = normalize(SmoothedXY.XCoord, w);
+        List<Float> Normalized_Y = normalize(SmoothedXY.YCoord, h);
 
         List<Float> CombinedXY = new ArrayList<>(Normalized_X.subList(0, Normalized_X.size()));
         CombinedXY.addAll(Normalized_Y.subList(0, Normalized_Y.size()));

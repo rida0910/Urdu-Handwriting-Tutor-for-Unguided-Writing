@@ -7,25 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
-import com.example.urduhandwritingtutor.LoginActivity;
-import com.example.urduhandwritingtutor.MainActivity;
 import com.example.urduhandwritingtutor.PracticeActivity;
 import com.example.urduhandwritingtutor.R;
-import com.example.urduhandwritingtutor.RegisterActivity;
-import com.example.urduhandwritingtutor.ui.evaluations;
-import java.nio.BufferUnderflowException;
 
 public class HomeFragment extends Fragment implements View.OnClickListener{
-
-    private HomeViewModel homeViewModel;
     Button alif;
     Button bay;
     Button pay;

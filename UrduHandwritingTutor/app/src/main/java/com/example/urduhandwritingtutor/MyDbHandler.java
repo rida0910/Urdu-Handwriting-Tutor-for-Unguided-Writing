@@ -29,6 +29,11 @@ public class MyDbHandler extends SQLiteOpenHelper {
     public static final String COLUMN_PERCENTAGECORRECTNESS = "Percentage_Correctness";
     public static final String COLUMN_FEEDBACK = "Feedback";
 
+    public static final String TABLE_QUIZRESULTS = "QuizResults";
+    public static final String TABLE_QUIZ = "Quizzes";
+    public static final String COLUMN_QUIZID = "QuizID";
+    public static final String COLUMN_QUIZNUMBER = "QuizNumber";
+
 
 
     public MyDbHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
@@ -59,12 +64,24 @@ public class MyDbHandler extends SQLiteOpenHelper {
                 "FOREIGN KEY(" + COLUMN_USERID + ") REFERENCES " + TABLE_USERDATA + "("+COLUMN_USERID+ "));";
 
         sqLiteDatabase.execSQL(query);
+
+        query = "CREATE TABLE " + TABLE_QUIZ + "(" +
+                COLUMN_QUIZID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                COLUMN_QUIZNUMBER + " INTEGER NOT NULL);";
+        sqLiteDatabase.execSQL(query);
+
+        query = "CREATE TABLE " + TABLE_QUIZRESULTS + "(" +
+                COLUMN_QUIZID + " INTEGER REFERENCES " + TABLE_QUIZ + "(" + COLUMN_QUIZID + ")," +
+                COLUMN_EVALUATIONID + " INTEGER NOT NULL, " +
+                "FOREIGN KEY(" + COLUMN_EVALUATIONID + ") REFERENCES " + TABLE_EVALUATIONS + "("+COLUMN_EVALUATIONID+ "));";
+        sqLiteDatabase.execSQL(query);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_USERDATA);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_EVALUATIONS);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_QUIZRESULTS);
         onCreate(sqLiteDatabase);
     }
 
@@ -203,4 +220,15 @@ public class MyDbHandler extends SQLiteOpenHelper {
         evaluation_class evaluations = new evaluation_class(TestChars, Scores, Feedback);
         return evaluations;
     }
+
+    public long addQuizResults(int evaId) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        long rowid;
+        values.put(COLUMN_EVALUATIONID, evaId);
+        rowid = db.insert(TABLE_EVALUATIONS, null, values);
+        db.close();
+        return rowid;
+    }
+
 }

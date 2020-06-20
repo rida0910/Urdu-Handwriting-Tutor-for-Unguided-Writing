@@ -36,7 +36,7 @@ public class FeedbackActivity extends AppCompatActivity {
         int score = bundle.getInt("Score");
         scoretxt.setText(String.valueOf(score));
         feedbacktxt = findViewById(R.id.feedback);
-        feedbacktxt.setText("Number of Strokes: Correct\n\nOrder of Strokes: correct\n\nStroke Direction: Correct" );
+        feedbacktxt.setText(bundle.getString("Feedback"));
         ratingBar.setRating(5);
         nextbtn = (Button)findViewById(R.id.nextbtn);
         CompleteBtn = findViewById(R.id.completebtn);

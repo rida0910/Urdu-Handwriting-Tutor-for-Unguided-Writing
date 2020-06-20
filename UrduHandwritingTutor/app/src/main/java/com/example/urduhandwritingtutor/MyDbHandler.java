@@ -24,7 +24,7 @@ public class MyDbHandler extends SQLiteOpenHelper {
     public static final String COLUMN_STATE = "State";
 
     public static final String TABLE_EVALUATIONS = "Evaluations";
-    public static final String COLUMN_EVALUATIONID = "Id";
+    public static final String COLUMN_EVALUATIONID = "EvaluationId";
     public static final String COLUMN_CHARACTER = "Character";
     public static final String COLUMN_PERCENTAGECORRECTNESS = "Percentage_Correctness";
     public static final String COLUMN_FEEDBACK = "Feedback";
@@ -81,6 +81,7 @@ public class MyDbHandler extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_USERDATA);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_EVALUATIONS);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_QUIZ);
         sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_QUIZRESULTS);
         onCreate(sqLiteDatabase);
     }
@@ -206,7 +207,8 @@ public class MyDbHandler extends SQLiteOpenHelper {
         List<String> TestChars = new ArrayList<>();
         List<String> Feedback = new ArrayList<>();
         List<Integer> Scores = new ArrayList<>();
-        Cursor cursor = db.rawQuery("SELECT * FROM  Evaluations JOIN Users ON Evaluations.UserId = Users.UserId WHERE State = 'logged_in'",null);
+        Cursor cursor = db.rawQuery("SELECT * FROM  Evaluations JOIN Users ON Evaluations.UserId = Users.UserId " +
+                "WHERE State = 'logged_in' and EvaluationID not in (SELECT EvaluationID FROM QuizResults)",null);
         if (cursor.moveToFirst()) {
             do {
                 TestChars.add(cursor.getString(cursor.getColumnIndex(COLUMN_CHARACTER)));
@@ -214,21 +216,45 @@ public class MyDbHandler extends SQLiteOpenHelper {
                 Scores.add(cursor.getInt(cursor.getColumnIndex(COLUMN_PERCENTAGECORRECTNESS)));
             } while (cursor.moveToNext());
         }
-
-        //code to set adapter to populate list
         cursor.close();
         evaluation_class evaluations = new evaluation_class(TestChars, Scores, Feedback);
         return evaluations;
     }
 
-    public long addQuizResults(int evaId) {
-        SQLiteDatabase db = getWritableDatabase();
+    public long addQuiz() {
+        SQLiteDatabase db = getReadableDatabase();
+        int MaxQuizNumber;
+        Cursor cursor = db.rawQuery("SELECT MAX(QuizNumber) FROM  "+ TABLE_QUIZ +" JOIN "+ TABLE_QUIZRESULTS +" ON " +
+                "Quizzes.QuizID = QuizResults.QuizID JOIN "+ TABLE_EVALUATIONS +" ON QuizResults.EvaluationID = Evaluations.EvaluationID " +
+                "JOIN USERS ON Users.UserId = Evaluations.UserId WHERE State = 'logged_in'",null);
+        if (cursor != null && cursor.moveToFirst()) {
+            do {
+                MaxQuizNumber = cursor.getInt(cursor.getColumnIndex("MAX(QuizNumber)"));
+            } while (cursor.moveToNext());
+
+        }
+        else {
+            MaxQuizNumber = 0;
+        }
+        cursor.close();
+
+        db.close();
+        db = getWritableDatabase();
         ContentValues values = new ContentValues();
         long rowid;
-        values.put(COLUMN_EVALUATIONID, evaId);
-        rowid = db.insert(TABLE_EVALUATIONS, null, values);
+        values.put(COLUMN_QUIZNUMBER, MaxQuizNumber + 1);
+        rowid = db.insert(TABLE_QUIZ, null, values);
         db.close();
         return rowid;
+    }
+
+    public void addQuizResults(long quizID, long evaId) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_EVALUATIONID, evaId);
+        values.put(COLUMN_QUIZID, quizID);
+        db.insert(TABLE_QUIZRESULTS, null, values);
+        db.close();
     }
 
 }

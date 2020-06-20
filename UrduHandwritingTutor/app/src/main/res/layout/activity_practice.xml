@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="32dp"
         android:layout_marginLeft="32dp"
-        android:background="@drawable/boardcopy"
+        android:background="@drawable/boardcropped"
         android:layout_above="@id/line1"
         android:layout_below="@id/chartext"/>
 

@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat;
 import org.tensorflow.contrib.android.TensorFlowInferenceInterface;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -39,9 +40,18 @@ public class TestActivity extends AppCompatActivity {
     ImageButton clrBtn;
     TextView TimerTxt;
     int w, h;
+    int alpha = 0;
+    int beta = 0;
+    int gamma = 0;
     private TensorFlowInferenceInterface inferenceInterface;
     CountDownTimer countDownTimer;
     int counter = 30;
+    List<Float> ResampledX = new ArrayList<>();
+    List<Float> ResampledY = new ArrayList<>();
+    List<Float> ResampledX_dot = new ArrayList<>();
+    List<Float> ResampledY_dot = new ArrayList<>();
+    boolean isWrongstarting = true, isWrongEnding = true, isWrongInTheMiddle = true;
+    List<evaluation_class> evaluations = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,8 +77,16 @@ public class TestActivity extends AppCompatActivity {
         }
         else
         {
-            evaluation_class evaluations = db.getEvaluations();
-            HashSet<String> charactersSet = new HashSet<>(evaluations.Characters);
+            List<evaluation_class> evaluations = db.getEvaluations();
+
+            List<String> charactersList = new ArrayList<>();
+
+            for (int i = 0; i < evaluations.size(); i++)
+            {
+                charactersList.add(evaluations.get(i).getCharacter());
+            }
+
+            HashSet<String> charactersSet = new HashSet<>(charactersList);
             if (charactersSet.size() < 5)
             {
                 charText.setText("You need to learn atleast 5 characters to unlock this feature!");
@@ -84,6 +102,7 @@ public class TestActivity extends AppCompatActivity {
             }
             else
             {
+                QuizId = db.addQuiz();
                 countDownTimer = new CountDownTimer(30000, 1000) {
                     @Override
                     public void onTick(long millisUntilFinished) {
@@ -98,7 +117,6 @@ public class TestActivity extends AppCompatActivity {
                     }
                 }.start();
 
-                QuizId = db.addQuiz();
                 canvasView.setBackgroundDrawable(ContextCompat.getDrawable(this, R.drawable.boardcropped));
                 characters = new ArrayList<>(charactersSet);
                 Random rand = new Random();
@@ -126,23 +144,13 @@ public class TestActivity extends AppCompatActivity {
 
     public void done(View view)
     {
-        if (num == 5)
-        {
-            Intent intent = new Intent(TestActivity.this, MainActivity.class);
-            startActivity(intent);
-            TestActivity.this.finish();
-        }
-
         if (canvasView.getListX().size() == 0)
         {
-            Toast.makeText(this, "Please write the specified character!",
+            Toast.makeText(this,  "Please write the specified character!",
                     Toast.LENGTH_SHORT).show();
         }
         else
         {
-
-            //float confidence = Collections.max(result);
-
             List<Float> listX = new ArrayList<>();
             List<Float> listY = new ArrayList<>();
             List<Long> listT = new ArrayList<>();
@@ -174,12 +182,25 @@ public class TestActivity extends AppCompatActivity {
                 }
 
                 float confidence = result.get(i);
+                int score = Math.round(confidence*100);
                 //String Feedback = "Number of Strokes: Correct\n\nOrder of Strokes: correct\n\nStroke Direction: Correct";
-                String Feedback = getFeedback(canvasView, i);
-                db.addevaluation(stuff, Math.round(confidence * 100), Feedback);
-                bundle.putInt("Score", Math.round(confidence * 100));
+                String Feedback;
+                float confidenceMax = Collections.max(result);
+                int indexOfMax = result.indexOf(confidenceMax);
+                if (!getCharacter(indexOfMax).equals(getCharacter(i)))
+                {
+                    Feedback = "You wrote " + getCharacter(indexOfMax) + " instead of " + getCharacter(i);
+                    score = 0;
+                }
+                else {
+                    Feedback = getFeedback(canvasView, i);
+                    score = (score / 100) * 40 + alpha + beta + gamma;
+                }
+                String hh = getCharacter(i);
+                db.addevaluation(getCharacter(i), score, Feedback);
+                bundle.putInt("Score", score);
                 bundle.putString("ComingFrom", "TestActivity");
-                bundle.putString("Feedback", getFeedback(canvasView, i));
+                bundle.putString("Feedback", Feedback);
                 Intent intent = new Intent(TestActivity.this, FeedbackActivity.class);
                 intent.putExtras(bundle);
                 startActivity(intent);
@@ -194,11 +215,15 @@ public class TestActivity extends AppCompatActivity {
                 for (float f : output) {
                     result.add(f);
                 }
+
                 float confidence = result.get(getCharacterNumber(character));
-                //String Feedback = "Number of Strokes: Correct\n\nOrder of Strokes: correct\n\nStroke Direction: Correct";
                 String Feedback = getFeedback(canvasView, getCharacterNumber(character));
-                long evalID = db.addevaluation(character, Math.round(confidence*100), Feedback);
+                int score = (Math.round(confidence*100)/100) * 40;
+                score = score + alpha + beta + gamma;
+                long evalID = db.addevaluation(character, score, Feedback);
                 db.addQuizResults(QuizId, evalID);
+                evaluation_class evaluation = new evaluation_class((int)evalID, character, score, Feedback);
+                evaluations.add(evaluation);
                 if (num < 5) {
                     Random rand = new Random();
                     character = characters.get(rand.nextInt(characters.size()));
@@ -214,6 +239,15 @@ public class TestActivity extends AppCompatActivity {
             }
         }
         canvasView.clearCanvas();
+        if (num == 6)
+        {
+            countDownTimer.cancel();
+            Quiz_class quiz = new Quiz_class((int)QuizId, db.getQuizNumber((int)QuizId), evaluations);
+            Intent intent = new Intent(TestActivity.this, QuizFeedback.class);
+            intent.putExtra("Quiz", quiz);
+            startActivity(intent);
+            TestActivity.this.finish();
+        }
     }
 
     class XYCoord {
@@ -382,10 +416,12 @@ public class TestActivity extends AppCompatActivity {
             i = i + 1;
         }
 
-        List<Float> ResampledX = new ArrayList<>();
-        List<Float> ResampledY = new ArrayList<>();
+
         XYCoord SmoothedXY = new XYCoord();
-        if (dots_indices.size() != 0)
+        if (dots_indices.size() != 0 && character != 1 && character != 9 && character != 11 &&
+                character != 14 && character != 18 && character != 20 && character != 22 &&
+                character != 24 && character != 30 && character != 31 && character != 33 &&
+                character != 34 && character != 35 && character != 36 && character != 37)
         {
             List<Float> listX_withoutDot = new ArrayList<>();
             List<Float> listY_withoutDot = new ArrayList<>();
@@ -416,9 +452,8 @@ public class TestActivity extends AppCompatActivity {
 
             }
 
-            List<Float> ResampledX_dot = new ArrayList<>();
-            List<Float> ResampledY_dot = new ArrayList<>();
-            XYCoord XYCoord;
+
+            XYCoord XYCoord = new XYCoord();
 
             //if (listX_Dot.size() > 6)
             if (character == 5 || character == 12 || character == 15 || character == 28 || character == 29)
@@ -470,7 +505,6 @@ public class TestActivity extends AppCompatActivity {
 
             //ResampledX = Final_X_Coord;
             //ResampledY = Final_Y_Coord;
-
         }
 
         else
@@ -502,16 +536,14 @@ public class TestActivity extends AppCompatActivity {
     {
         String Feedback;
 
-        String numStrokes, OrderofStrokes, Direcction  = "Incorrect";
-        boolean alpha = false;
-        boolean beta = false;
-        boolean gamma = false;
+        String numStrokes, OrderofStrokes, Direction = "";
+        OrderofStrokes = "";
 
         //no. of strokes
         if (getNumofStrokes(canvasView.TimeList).size() == getCorrectnumofStrokes(character))
         {
             numStrokes = "Number of Strokes: " + getNumofStrokes(canvasView.TimeList).size() + " (Correct)";
-            alpha = true;
+            alpha = 20;
         }
         else
         {
@@ -526,34 +558,40 @@ public class TestActivity extends AppCompatActivity {
         }
 
         //now for order of strokes
-        if (checkStrokeOrder(canvasView.getListX(), canvasView.getListY(), canvasView.TimeList, character) && alpha)
+        if (checkStrokeOrder(canvasView.getListX(), canvasView.getListY(), canvasView.TimeList, character) && alpha == 20)
         {
             OrderofStrokes = "Order of Strokes: Correct";
-            beta = true;
+            beta = 20;
         }
-        else
+        else if (character != 1 && character != 9 && character != 11 &&
+                character != 14 && character != 18 && character != 20 && character != 22 &&
+                character != 24 && character != 30 && character != 31 && character != 33 &&
+                character != 34 && character != 35 && character != 36 && character != 37)
         {
             OrderofStrokes = "Base shape must be drawn first";
         }
 
-        //now for direction of strokes\
-        List<String> directions = getStrokeDirection(canvasView.getListX(), canvasView.getListY(), canvasView.TimeList);
+        if (beta == 20) {
+            //now for direction of strokes\
+            List<String> directions = getStrokeDirection(canvasView.getListX(), canvasView.getListY());
+            Direction = checkStrokeDirection(character, directions);
+            if (Direction == "correct"){
+                gamma = 20;
+            }
+            Direction = "Stroke Direction: " + Direction;
 
-        Feedback = numStrokes + "\n\n" + OrderofStrokes + "\n\nStroke Direction: Correct";
+        }
+        Feedback = numStrokes + "\n\n" + OrderofStrokes + "\n\n" + Direction;
 
         return Feedback;
     }
 
-    List<String> getStrokeDirection(List<Float> listX, List<Float> listY, List<Long> TimeList)
+    List<String> getStrokeDirection(List<Float> listX, List<Float> listY)
     {
         List<String> directions = new ArrayList<>();
-        List<Integer> penDowns = getNumofStrokes(TimeList);
-
         Float deltaX, deltaY;
         double theta;
 
-        /*if (penDowns.size() == 1)
-        {*/
         for (int i = 1; i < listX.size() - 1; i++)
         {
             deltaX = listX.get(i) - listX.get(i-1);
@@ -596,9 +634,705 @@ public class TestActivity extends AppCompatActivity {
                 directions.add("right");
             }
         }
-        //}
-
         return directions;
+    }
+
+    String checkStrokeDirection(int character, List<String> Directions)
+    {
+        String result = "";
+
+        int i = Directions.size()/3;
+
+        List<String> Start = Directions.subList(0, i);
+        List<String> Middle = Directions.subList(i, i+i);
+        List<String> End = Directions.subList(i+i, Directions.size());
+        int wrongStart = 0;
+        int wrongMiddle = 0;
+        int wrongEnd = 0;
+
+
+        if (character == 1)
+        {
+            if (Directions.contains("up") || Directions.contains("up left") || Directions.contains("up right"))
+            {
+                result = "Alif should be written in downwards motion";
+                return result;
+            }
+            else
+            {
+                result = "correct";
+                isWrongstarting = false; isWrongEnding = false; isWrongInTheMiddle = false;
+                return result;
+            }
+        }
+
+        else if (character == 2 || character == 3 || character == 4 || character == 6)
+        {
+            for (String s : Start)
+            {
+                if (s.equals("right") || s.equals("up") || s.equals("up right") || s.equals("up left") || s.equals("down right"))
+                {
+                    wrongStart ++;
+                }
+            }
+            for (String s : Middle)
+            {
+                if (s.equals("right") || s.equals("up") || s.equals("up right") || s.equals("down") || s.equals("down right"))
+                {
+                    wrongMiddle ++;
+                }
+            }
+            for (String s : End)
+            {
+                if (s.equals("right") || s.equals("down")|| s.equals("down left") || s.equals("down right") || s.equals("up right"))
+                {
+                    wrongEnd ++;
+                }
+            }
+        }
+
+        else if (character == 5 || character == 12 || character == 15)
+        {
+            List<String> DirectionsPrimary = getStrokeDirection(ResampledX.subList(0, 31), ResampledY.subList(0, 31));
+            List<String> DirectionsSecondary = getStrokeDirection(ResampledX_dot, ResampledY_dot);
+            i = DirectionsPrimary.size()/3;
+            int j = DirectionsSecondary.size()/3;
+            int wrongStartPrimary = 0; int wrongMiddlePrimary = 0; int wrongEndPrimary = 0;
+            int wrongStartSecondary = 0; int wrongMiddleSecondary = 0; int wrongEndSecondary = 0;
+
+            List<String> StartPrimary = DirectionsPrimary.subList(0, i);
+            List<String> MiddlePrimary = DirectionsPrimary.subList(i, i+i);
+            List<String> EndPrimary = DirectionsPrimary.subList(i+i, DirectionsPrimary.size());
+
+            List<String> StartSecondary = DirectionsSecondary.subList(0, j);
+            List<String> MiddleSecondary = DirectionsSecondary.subList(j, j+j);
+            List<String> EndSecondary = DirectionsSecondary.subList(j+j, DirectionsSecondary.size());
+
+            if (character == 5) {
+                for (String s : StartPrimary) {
+                    if (s.equals("right") || s.equals("up") || s.equals("up right") || s.equals("up left") || s.equals("down right")) {
+                        wrongStartPrimary++;
+                    }
+                }
+                for (String s : MiddlePrimary) {
+                    if (s.equals("right") || s.equals("up") || s.equals("up right") || s.equals("down") || s.equals("down right")) {
+                        wrongMiddlePrimary++;
+                    }
+                }
+                for (String s : EndPrimary) {
+                    if (s.equals("down") || s.equals("down left") || s.equals("down right") || s.equals("up right")) {
+                        wrongEndPrimary++;
+                    }
+                }
+            }
+            if (character == 12) {
+                for (String s : StartPrimary) {
+                    if (s.equals("up")|| s.equals("up right") || s.equals("up left") || s.equals("down") || s.equals("down left") || s.equals("left")) {
+                        wrongStartPrimary ++;
+                    }
+                }
+                for (String s : MiddlePrimary) {
+                    if (s.equals("up")|| s.equals("up right") || s.equals("up left")) {
+                        wrongMiddlePrimary ++;
+                    }
+                }
+                for (String s : EndPrimary) {
+                    if (s.equals("down right") || s.equals("up")|| s.equals("up right") || s.equals("up left")) {
+                        wrongEndPrimary ++;
+                    }
+                }
+            }
+            if (character == 15) {
+                for (String s : StartPrimary) {
+                    if (s.equals("up")|| s.equals("up right") || s.equals("up left") || s.equals("right") || s.equals("down right") || s.equals("left")) {
+                        wrongStartPrimary ++;
+                    }
+                }
+                for (String s : MiddlePrimary) {
+                    if (s.equals("up")|| s.equals("up right") || s.equals("up left") || s.equals("right") || s.equals("down right") || s.equals("left")) {
+                        wrongMiddlePrimary ++;
+                    }
+                }
+                for (String s : EndPrimary) {
+                    if (s.equals("up")|| s.equals("up right") || s.equals("up left") || s.equals("right") || s.equals("down right")) {
+                        wrongEndPrimary ++;
+                    }
+                }
+            }
+            for (String s : StartSecondary) {
+                if (s.equals("up")|| s.equals("up right") || s.equals("right")  || s.equals("down right") || s.equals("left")  || s.equals("up left")) {
+                    wrongStartSecondary ++;
+                }
+            }
+            for (String s : MiddleSecondary) {
+                if (s.equals("right") || s.equals("left")  || s.equals("up left")) {
+                    wrongMiddleSecondary ++;
+                }
+            }
+            for (String s : EndSecondary) {
+                if (s.equals("up left") || s.equals("up") || s.equals("up right") || s.equals("right")) {
+                    wrongEndSecondary ++;
+                }
+            }
+
+            if (wrongStartPrimary > 5)
+            {
+                result = "The starting direction of the primary stroke was wrong";
+            }
+            else if (wrongMiddlePrimary > 5)
+            {
+                result = "The direction of the primary stroke went wrong in the middle";
+            }
+            else if (wrongEndPrimary > 7)
+            {
+                result = "The ending direction of the primary stroke was wrong";
+            }
+            else if (wrongStartSecondary > 5)
+            {
+                result = "The starting direction of the secondary stroke was wrong";
+            }
+            else if (wrongMiddleSecondary > 5)
+            {
+                result = "The direction of the secondary stroke went wrong in the middle";
+            }
+            else if (wrongEndSecondary > 7)
+            {
+                result = "The ending direction of the secondary stroke was wrong";
+            }
+
+            else
+            {
+                result = "correct";
+                isWrongstarting = false; isWrongEnding = false; isWrongInTheMiddle = false;
+            }
+
+            return result;
+        }
+
+        else if (character == 7 || character == 8 || character == 9 || character == 10)
+        {
+            for (String s : Start)
+            {
+                if (s.equals("left")|| s.equals("up left") || s.equals("down right") || s.equals("down"))
+                {
+                    wrongStart ++;
+                }
+            }
+            for (String s : Middle)
+            {
+                if (s.equals("right") || s.equals("up") || s.equals("up right") || s.equals("down") || s.equals("up left") || s.equals("left"))
+                {
+                    wrongMiddle ++;
+                }
+            }
+            for (String s : End)
+            {
+                if (s.equals("left") || s.equals("down left") || s.equals("up left") || s.equals("down right"))
+                {
+                    wrongEnd ++;
+                }
+            }
+        }
+
+        else if (character == 11 || character == 13)
+        {
+            for (String s : Start)
+            {
+                if (s.equals("up")|| s.equals("up right") || s.equals("up left") || s.equals("down") || s.equals("down left") || s.equals("left"))
+                {
+                    wrongStart ++;
+                }
+            }
+            for (String s : Middle)
+            {
+                if (s.equals("up")|| s.equals("up right") || s.equals("up left"))
+                {
+                    wrongMiddle ++;
+                }
+            }
+            for (String s : End)
+            {
+                if (s.equals("down right") || s.equals("up")|| s.equals("up right") || s.equals("up left") || s.equals("right"))
+                {
+                    wrongEnd ++;
+                }
+            }
+        }
+
+        else if (character == 14 || character == 16 || character == 17)
+        {
+            for (String s : Start)
+            {
+                if (s.equals("up")|| s.equals("up right") || s.equals("up left") || s.equals("right") || s.equals("down right") || s.equals("left"))
+                {
+                    wrongStart ++;
+                }
+            }
+            for (String s : Middle)
+            {
+                if (s.equals("up")|| s.equals("up right") || s.equals("up left") || s.equals("right") || s.equals("down right") || s.equals("left"))
+                {
+                    wrongMiddle ++;
+                }
+            }
+            for (String s : End)
+            {
+                if (s.equals("up")|| s.equals("up right") || s.equals("up left") || s.equals("right") || s.equals("down right"))
+                {
+                    wrongEnd ++;
+                }
+            }
+        }
+
+        else if (character == 18 || character == 19)
+        {
+            for (String s : Start)
+            {
+                if (s.equals("up left")|| s.equals("up right") || s.equals("right") || s.equals("down right"))
+                {
+                    wrongStart ++;
+                }
+            }
+            for (String s : Middle)
+            {
+                if (s.equals("up left")|| s.equals("up right") || s.equals("right") || s.equals("down right"))
+                {
+                    wrongMiddle ++;
+                }
+            }
+            for (String s : End)
+            {
+                if (s.equals("down") || s.equals("right") || s.equals("down right"))
+                {
+                    wrongEnd ++;
+                }
+            }
+        }
+
+        else if (character == 20 || character == 21)
+        {
+            for (String s : Middle)
+            {
+                if (s.equals("up")|| s.equals("up right") || s.equals("right")  || s.equals("down right")  || s.equals("up left"))
+                {
+                    wrongMiddle ++;
+                }
+            }
+            for (String s : End)
+            {
+                if (s.equals("down") || s.equals("right") || s.equals("down right"))
+                {
+                    wrongEnd ++;
+                }
+            }
+        }
+
+        else if (character == 22 || character == 23)
+        {
+            for (String s : Start)
+            {
+                if (s.equals("up")|| s.equals("up right") || s.equals("right")  || s.equals("down right") || s.equals("left")  || s.equals("up left"))
+                {
+                    wrongStart ++;
+                }
+            }
+            for (String s : Middle)
+            {
+                if (s.equals("right") || s.equals("left")  || s.equals("up left"))
+                {
+                    wrongMiddle ++;
+                }
+            }
+            for (String s : End)
+            {
+                if (s.equals("up left") || s.equals("up") || s.equals("up right") || s.equals("right"))
+                {
+                    wrongEnd ++;
+                }
+            }
+        }
+
+        else if (character == 24 || character == 25)
+        {
+            for (String s : Start)
+            {
+                if (s.equals("up") || s.equals("down right") || s.equals("left"))
+                {
+                    wrongStart ++;
+                }
+            }
+            for (String s : Middle)
+            {
+                if (s.equals("up") || s.equals("left")  || s.equals("up left") || s.equals("up right"))
+                {
+                    wrongMiddle ++;
+                }
+            }
+            for (String s : End)
+            {
+                if (s.equals("up left") || s.equals("left") || s.equals("down left") || s.equals("down"))
+                {
+                    wrongEnd ++;
+                }
+            }
+        }
+
+        else if (character == 26)
+        {
+
+            for (String s : Middle)
+            {
+                if (s.equals("right") || s.equals("up") || s.equals("up right") || s.equals("down") || s.equals("down right"))
+                {
+                    wrongMiddle ++;
+                }
+            }
+            for (String s : End)
+            {
+                if (s.equals("right") || s.equals("down")|| s.equals("down left") || s.equals("down right") || s.equals("up right"))
+                {
+                    wrongEnd ++;
+                }
+            }
+        }
+
+        else if (character == 27)
+        {
+
+            for (String s : Middle)
+            {
+                if (s.equals("right") || s.equals("up") || s.equals("up right") || s.equals("down right"))
+                {
+                    wrongMiddle ++;
+                }
+            }
+            for (String s : End)
+            {
+                if (s.equals("right") || s.equals("down")|| s.equals("down left") || s.equals("down right") || s.equals("left"))
+                {
+                    wrongEnd ++;
+                }
+            }
+        }
+
+        else if (character == 28 || character == 29)
+        {
+            List<String> DirectionsPrimary = getStrokeDirection(ResampledX.subList(0, 31), ResampledY.subList(0, 31));
+            List<String> DirectionsSecondary = getStrokeDirection(ResampledX_dot, ResampledY_dot);
+            i = DirectionsPrimary.size()/3;
+
+            int wrongStartPrimary = 0; int wrongMiddlePrimary = 0; int wrongEndPrimary = 0;
+            int wrongSecondary = 0;
+
+            List<String> StartPrimary = DirectionsPrimary.subList(0, i);
+            List<String> MiddlePrimary = DirectionsPrimary.subList(i, i+i);
+            List<String> EndPrimary = DirectionsPrimary.subList(i+i, DirectionsPrimary.size());
+
+            for (String s : StartPrimary)
+            {
+                if (s.equals("up") || s.equals("up right") || s.equals("up left") || s.equals("right") || s.equals("down right"))
+                {
+                    wrongStartPrimary ++;
+                }
+            }
+            for (String s : MiddlePrimary)
+            {
+                if (s.equals("right") || s.equals("up right") || s.equals("up") || s.equals("down right") || s.equals("down"))
+                {
+                    wrongMiddlePrimary ++;
+                }
+            }
+            for (String s : EndPrimary)
+            {
+                if (s.equals("down") || s.equals("down right") || s.equals("down left"))
+                {
+                    wrongEndPrimary ++;
+                }
+            }
+            for (String s : DirectionsSecondary)
+            {
+                if (!s.equals("down left"))
+                {
+                    wrongSecondary ++;
+                }
+            }
+
+            if (wrongStartPrimary > 5)
+            {
+                result = "The starting direction of the primary stroke was wrong";
+            }
+            else if (wrongMiddlePrimary > 5)
+            {
+                result = "The direction of the primary stroke went wrong in the middle";
+            }
+            else if (wrongEndPrimary > 7)
+            {
+                result = "The ending direction of the primary stroke was wrong";
+            }
+            else if (wrongSecondary > 5)
+            {
+                result = "The direction of the secondary stroke was wrong";
+            }
+            else
+            {
+                result = "correct";
+                isWrongstarting = false; isWrongEnding = false; isWrongInTheMiddle = false;
+            }
+
+            return result;
+
+        }
+
+        /*else if (character == 29)
+        {
+            i = Directions.size()/4;
+
+            List<String> StartPrimary = Directions.subList(0, i);
+            List<String> EndPrimary = Directions.subList(i, i+i);
+            List<String> Secondary = Directions.subList(i+i, i+i+i);
+            List<String> Tertiary = Directions.subList(i+i+i, Directions.size());
+            int wrongStartPrimary = 0;
+            int wrongEndPrimary = 0;
+            int wrongSecondary = 0;
+            int wrongTertiary = 0;
+
+            for (String s : StartPrimary)
+            {
+                if (s.equals("up") || s.equals("up right") || s.equals("up left") || s.equals("right") || s.equals("down right"))
+                {
+                    wrongStartPrimary ++;
+                }
+            }
+            for (String s : EndPrimary)
+            {
+                if (s.equals("right") || s.equals("up right") || s.equals("down") || s.equals("down right") || s.equals("down left"))
+                {
+                    wrongEndPrimary ++;
+                }
+            }
+            for (String s : Secondary)
+            {
+                if (!s.equals("down left"))
+                {
+                    wrongSecondary ++;
+                }
+            }
+            for (String s : Tertiary)
+            {
+                if (!s.equals("down left"))
+                {
+                    wrongTertiary ++;
+                }
+            }
+            if (wrongStartPrimary > 5)
+            {
+                result = "The starting direction of the character was wrong";
+            }
+            else if (wrongEndPrimary > 5)
+            {
+                result = "The ending direction of the primary stroke was wrong";
+            }
+            else if (wrongSecondary > 6)
+            {
+                result = "The direction of the secondary stroke was wrong";
+            }
+            else if (wrongTertiary > 6)
+            {
+                result = "The direction of the Tertiary stroke was wrong";
+            }
+
+            else
+            {
+                result = "correct";
+                isWrongstarting = false; isWrongEnding = false; isWrongInTheMiddle = false;
+            }
+
+            return result;
+
+        }
+*/
+        else if (character == 30 || character == 32)
+        {
+            for (String s : Start)
+            {
+                if (s.equals("right") || s.equals("up") || s.equals("up right") || s.equals("up left") || s.equals("down right"))
+                {
+                    wrongStart ++;
+                }
+            }
+            for (String s : Middle)
+            {
+                if (s.equals("right") || s.equals("up") || s.equals("up right") || s.equals("down") || s.equals("down right"))
+                {
+                    wrongMiddle ++;
+                }
+            }
+            for (String s : End)
+            {
+                if (s.equals("right") || s.equals("down")|| s.equals("down left") || s.equals("down right"))
+                {
+                    wrongEnd ++;
+                }
+            }
+        }
+
+        else if (character == 31)
+        {
+            for (String s : Middle)
+            {
+                if (s.equals("right") || s.equals("up") || s.equals("up right") || s.equals("down") || s.equals("down right"))
+                {
+                    wrongMiddle ++;
+                }
+            }
+            for (String s : End)
+            {
+                if (!s.equals("down") && !s.equals("down left"))
+                {
+                    wrongEnd ++;
+                }
+            }
+        }
+
+        else if (character == 33)
+        {
+
+            for (String s : Middle)
+            {
+                if (s.equals("up")|| s.equals("up right") || s.equals("up left"))
+                {
+                    wrongMiddle ++;
+                }
+            }
+            for (String s : End)
+            {
+                if (s.equals("down right") || s.equals("up")|| s.equals("up right") || s.equals("up left") || s.equals("right"))
+                {
+                    wrongEnd ++;
+                }
+            }
+        }
+
+        else if (character == 34)
+        {
+            for (String s : Start)
+            {
+                if (s.equals("left") || s.equals("up")|| s.equals("up right") || s.equals("up left") || s.equals("right"))
+                {
+                    wrongStart ++;
+                }
+            }
+            for (String s : Middle)
+            {
+                if (s.equals("up")|| s.equals("left") || s.equals("up left") || s.equals("down left") || s.equals("down"))
+                {
+                    wrongMiddle ++;
+                }
+            }
+            for (String s : End)
+            {
+                if (s.equals("up right") || s.equals("right")|| s.equals("down right") || s.equals("down") || s.equals("down left"))
+                {
+                    wrongEnd ++;
+                }
+            }
+        }
+
+        else if (character == 35)
+        {
+            for (String s : Start)
+            {
+                if (s.equals("up right") || s.equals("down right") || s.equals("right") || s.equals("down"))
+                {
+                    wrongStart ++;
+                }
+            }
+            for (String s : Middle)
+            {
+                if (s.equals("up left") || s.equals("up") || s.equals("left") || s.equals("down"))
+                {
+                    wrongMiddle ++;
+                }
+            }
+            for (String s : End)
+            {
+                if (!s.equals("down left"))
+                {
+                    wrongEnd ++;
+                }
+            }
+        }
+
+        else if (character == 36)
+        {
+            for (String s : Start)
+            {
+                if (s.equals("up right") || s.equals("down"))
+                {
+                    wrongStart ++;
+                }
+            }
+            for (String s : Middle)
+            {
+                if (s.equals("up left") || s.equals("up") || s.equals("up right") || s.equals("down") || s.equals("right"))
+                {
+                    wrongMiddle ++;
+                }
+            }
+            for (String s : End)
+            {
+                if (s.equals("down") || s.equals("down left") || s.equals("down right") || s.equals("right") || s.equals("left"))
+                {
+                    wrongEnd ++;
+                }
+            }
+        }
+
+        else if (character == 37)
+        {
+            for (String s : Start)
+            {
+                if (s.equals("up right") || s.equals("up") || s.equals("up left"))
+                {
+                    wrongStart ++;
+                }
+            }
+            for (String s : Middle)
+            {
+                if (s.equals("up") || s.equals("up left") || s.equals("left"))
+                {
+                    wrongMiddle ++;
+                }
+            }
+            for (String s : End)
+            {
+                if (s.equals("left") ||  s.equals("up left") || s.equals("up") || s.equals("down left") || s.equals("down") || s.equals("down right"))
+                {
+                    wrongEnd ++;
+                }
+            }
+        }
+
+        if (wrongStart > 5)
+        {
+            result = "The starting direction of the character was wrong";
+        }
+        else if (wrongMiddle > 5)
+        {
+            result = "The direction of the character went wrong in the middle";
+        }
+        else if (wrongEnd > 7)
+        {
+            result = "The ending direction of the character was wrong";
+        }
+
+        else
+        {
+            result = "correct";
+            isWrongstarting = false; isWrongEnding = false; isWrongInTheMiddle = false;
+        }
+
+        return result;
     }
 
 
@@ -751,7 +1485,7 @@ public class TestActivity extends AppCompatActivity {
         {
             i = 4;
         }
-        else if (character.equals("ٹ Ttay"))
+        else if (character.equals("ٹ TTay"))
         {
             i = 5;
         }
@@ -884,6 +1618,158 @@ public class TestActivity extends AppCompatActivity {
             i = 37;
         }
         return i;
+    }
+    public String getCharacter(int i)
+    {
+        if (i == 1)
+        {
+            character = "ا Alif";
+        }
+        else if (i == 2)
+        {
+            character = "ب Bay";
+        }
+        else if (i == 3)
+        {
+            character = "پ Pay";
+        }
+        else if (i == 4)
+        {
+            character = "ت Tay";
+        }
+        else if (i == 5)
+        {
+            character = "ٹ TTay";
+        }
+        else if (i == 6)
+        {
+            character = "ث Say";
+        }
+        else if (i == 7)
+        {
+            character = "ج Jeem";
+        }
+        else if (i == 8)
+        {
+            character = "چ Chay";
+        }
+        else if (i == 9)
+        {
+            character = "ح Hay";
+        }
+        else if (i == 10)
+        {
+            character = "خ Khay";
+        }
+        else if (i == 11)
+        {
+            character = "د Daal";
+        }
+        else if (i == 12)
+        {
+            character = "ڈ DDal";
+        }
+        else if (i == 13)
+        {
+            character = "ذ Zaal";
+        }
+        else if (i == 14)
+        {
+            character = "ر Ray";
+        }
+        else if (i == 15)
+        {
+            character = "ڑ RRay";
+        }
+        else if (i == 16)
+        {
+            character = "ز Zay";
+        }
+        else if (i == 17)
+        {
+            character = "ژ SSay";
+        }
+        else if (i == 18)
+        {
+            character = "س Seen";
+        }
+        else if (i == 19)
+        {
+            character = "ش Sheen";
+        }
+        else if (i == 20)
+        {
+            character = "ص Suaad";
+        }
+        else if (i == 21)
+        {
+            character = "ض Zuaad";
+        }
+        else if (i == 22)
+        {
+            character = "ط Toayein";
+        }
+        else if (i == 23)
+        {
+            character = "ظ Zoayein";
+        }
+        else if (i == 24)
+        {
+            character = "ع Aayein";
+        }
+        else if (i == 25)
+        {
+            character = "غ Ghayein";
+        }
+        else if (i == 26)
+        {
+            character = "ف Fay";
+        }
+        else if (i == 27)
+        {
+            character = "ق Qaaf";
+        }
+        else if (i == 28)
+        {
+            character = "ک Kaaf";
+        }
+        else if (i == 29)
+        {
+            character = "گ Gaaf";
+        }
+        else if (i == 30)
+        {
+            character = "ل Laam";
+        }
+        else if (i == 31)
+        {
+            character = "م Meem";
+        }
+        else if (i == 32)
+        {
+            character = "ن Noon";
+        }
+        else if (i == 33)
+        {
+            character = "و Wao";
+        }
+        else if (i == 34)
+        {
+            character = "ہ Haa";
+        }
+        else if (i == 35)
+        {
+            character = "ء Hamza";
+        }
+        else if (i == 36)
+        {
+            character = "ی Choti yay";
+        }
+        else if (i == 37)
+        {
+            character = "ے Barri yay";
+        }
+        return character;
     }
 
 }

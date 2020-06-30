@@ -7,7 +7,7 @@
     tools:context=".FeedbackActivity">
 
     <TextView
-        android:id="@+id/feedbacktxt"
+        android:id="@+id/charactertextview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Feedback"
@@ -30,7 +30,7 @@
         android:scaleX="1.5"
         android:scaleY="1.5"
         android:stepSize="1"
-        android:layout_below="@+id/feedbacktxt"
+        android:layout_below="@+id/charactertextview"
         android:layout_centerHorizontal="true"/>
 
     <TextView

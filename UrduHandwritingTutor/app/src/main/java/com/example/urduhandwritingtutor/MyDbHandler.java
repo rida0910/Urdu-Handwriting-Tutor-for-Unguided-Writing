@@ -202,22 +202,28 @@ public class MyDbHandler extends SQLiteOpenHelper {
 
 
 
-    public evaluation_class getEvaluations() {
+    public List<evaluation_class> getEvaluations() {
         SQLiteDatabase db = getReadableDatabase();
-        List<String> TestChars = new ArrayList<>();
-        List<String> Feedback = new ArrayList<>();
-        List<Integer> Scores = new ArrayList<>();
+        String TestChars = "";
+        String Feedback = "";
+        int Scores = 0;
+        int id;
+        List<evaluation_class> evaluations = new ArrayList<>();
         Cursor cursor = db.rawQuery("SELECT * FROM  Evaluations JOIN Users ON Evaluations.UserId = Users.UserId " +
                 "WHERE State = 'logged_in' and EvaluationID not in (SELECT EvaluationID FROM QuizResults)",null);
         if (cursor.moveToFirst()) {
             do {
-                TestChars.add(cursor.getString(cursor.getColumnIndex(COLUMN_CHARACTER)));
-                Feedback.add(cursor.getString(cursor.getColumnIndex(COLUMN_FEEDBACK)));
-                Scores.add(cursor.getInt(cursor.getColumnIndex(COLUMN_PERCENTAGECORRECTNESS)));
+                id = cursor.getInt(cursor.getColumnIndex(COLUMN_EVALUATIONID));
+                TestChars = cursor.getString(cursor.getColumnIndex(COLUMN_CHARACTER));
+                Feedback = cursor.getString(cursor.getColumnIndex(COLUMN_FEEDBACK));
+                Scores = cursor.getInt(cursor.getColumnIndex(COLUMN_PERCENTAGECORRECTNESS));
+                evaluation_class evaluation = new evaluation_class(id, TestChars, Scores, Feedback);
+                evaluations.add(evaluation);
+
             } while (cursor.moveToNext());
         }
         cursor.close();
-        evaluation_class evaluations = new evaluation_class(TestChars, Scores, Feedback);
+
         return evaluations;
     }
 
@@ -257,4 +263,67 @@ public class MyDbHandler extends SQLiteOpenHelper {
         db.close();
     }
 
+
+    public List<Quiz_class> getQuizzes()
+    {
+        SQLiteDatabase db = getReadableDatabase();
+        List<Quiz_class> quizzes = new ArrayList<>();
+        List<Integer> QuizIds = new ArrayList<>();
+        List<Integer> QuizNumbers = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery("SELECT Quizzes.QuizId, QuizNumber FROM " + TABLE_QUIZ + " JOIN QuizResults ON Quizzes.QuizId = QuizResults.QuizId " +
+                "JOIN Evaluations ON Evaluations.EvaluationId = QuizResults.EvaluationId JOIN Users ON Users.UserId = Evaluations.UserId " +
+                "WHERE State = 'logged_in'  GROUP BY Quizzes.QuizID, QuizNumber", null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                QuizIds.add(cursor.getInt(cursor.getColumnIndex(COLUMN_QUIZID)));
+                QuizNumbers.add(cursor.getInt(cursor.getColumnIndex(COLUMN_QUIZNUMBER)));
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        for (int i = 0; i < QuizIds.size(); i++) {
+
+            cursor = db.rawQuery("SELECT * FROM  Evaluations JOIN QuizResults ON Evaluations.EvaluationId = QuizResults.EvaluationId " +
+                    "WHERE QuizId = " + QuizIds.get(i), null);
+            List<evaluation_class> evaluations = new ArrayList<>();
+            if (cursor.moveToFirst()) {
+                do {
+                    String TestChars = cursor.getString(cursor.getColumnIndex(COLUMN_CHARACTER));
+                    String Feedback = cursor.getString(cursor.getColumnIndex(COLUMN_FEEDBACK));
+                    int Scores = cursor.getInt(cursor.getColumnIndex(COLUMN_PERCENTAGECORRECTNESS));
+                    int id = cursor.getInt(cursor.getColumnIndex(COLUMN_EVALUATIONID));
+                    evaluation_class evaluation = new evaluation_class(id, TestChars, Scores, Feedback);
+                    evaluations.add(evaluation);
+
+                } while (cursor.moveToNext());
+            }
+            Quiz_class quiz = new Quiz_class(QuizIds.get(i), QuizNumbers.get(i), evaluations);
+            quizzes.add(quiz);
+        }
+        cursor.close();
+        return quizzes;
+
+    }
+
+    public int getQuizNumber(int id)
+    {
+        int quizNumber = 0;
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM  Quizzes  " +
+                "WHERE QuizId = " + id, null);
+        if (cursor.moveToFirst()) {
+            do {
+                quizNumber = cursor.getInt(cursor.getColumnIndex(COLUMN_QUIZNUMBER));
+            } while (cursor.moveToNext());
+        }
+        return quizNumber;
+    }
+
+    public void deleteEvaluation(long id)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(TABLE_EVALUATIONS, COLUMN_EVALUATIONID + "=" + id, null);
+    }
 }

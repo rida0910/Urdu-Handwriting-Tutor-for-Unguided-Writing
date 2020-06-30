@@ -1,29 +1,37 @@
 package com.example.urduhandwritingtutor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
 
-public class evaluation_class {
-    List<String> Characters = new ArrayList<>();
-    List<Integer> Score = new ArrayList<>();
-    List<String> Feedback = new ArrayList<>();
+public class evaluation_class implements Serializable {
+    int Id;
+    String Character;
+    Integer Score;
+    String Feedback;
 
 
-    public evaluation_class(List<String> characters, List<Integer> score, List<String> feedback) {
-        Characters = characters;
+    public evaluation_class(){}
+
+    public evaluation_class(int id, String character, int score, String feedback) {
+        Character = character;
         Score = score;
         Feedback = feedback;
+        Id = id;
     }
 
-    public List<String> getCharacters() {
-        return Characters;
+    public String getCharacter() {
+        return Character;
     }
 
-    public List<Integer> getScore() {
+    public int getScore() {
         return Score;
     }
 
-    public List<String> getFeedback() {
+    public String getFeedback() {
         return Feedback;
     }
+
+    public int getId() {
+        return Id;
+    }
 }
+

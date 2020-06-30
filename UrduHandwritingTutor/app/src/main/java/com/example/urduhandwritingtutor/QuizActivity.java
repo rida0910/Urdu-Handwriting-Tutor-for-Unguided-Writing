@@ -30,8 +30,16 @@ public class QuizActivity extends AppCompatActivity {
         charText = findViewById(R.id.chartext);
         nextBtn = findViewById(R.id.evaluate);
 
-        evaluation_class evaluations = db.getEvaluations();
-        HashSet<String> charactersSet = new HashSet<>(evaluations.Characters);
+        List<evaluation_class> evaluations = db.getEvaluations();
+
+        List<String> characters = new ArrayList<>();
+
+        for (int i = 0; i < evaluations.size(); i++)
+        {
+            characters.add(evaluations.get(i).getCharacter());
+        }
+
+        HashSet<String> charactersSet = new HashSet<>(characters);
         if (charactersSet.size() < 5)
         {
             charText.setText("You need to learn atleast 5 characters to unlock this feature!");

@@ -25,6 +25,7 @@ public class FeedbackActivity extends AppCompatActivity {
     TextView feedbacktxt;
     Button CompleteBtn;
     String ComingFrom;
+    TextView characterTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +38,10 @@ public class FeedbackActivity extends AppCompatActivity {
         scoretxt.setText(String.valueOf(score));
         feedbacktxt = findViewById(R.id.feedback);
         feedbacktxt.setText(bundle.getString("Feedback"));
-        ratingBar.setRating(5);
+        ratingBar.setRating(score/20);
         nextbtn = (Button)findViewById(R.id.nextbtn);
         CompleteBtn = findViewById(R.id.completebtn);
+        characterTextView = findViewById(R.id.charactertextview);
 
         ComingFrom = bundle.getString("ComingFrom");
         if (ComingFrom.equals("evaluations"))
@@ -50,6 +52,7 @@ public class FeedbackActivity extends AppCompatActivity {
         }
         else {
             stuff = bundle.getString("character");
+            characterTextView.setText(stuff);
             i = bundle.getInt("Number");
             if (i == 37) {
                 nextbtn.setVisibility(View.GONE);

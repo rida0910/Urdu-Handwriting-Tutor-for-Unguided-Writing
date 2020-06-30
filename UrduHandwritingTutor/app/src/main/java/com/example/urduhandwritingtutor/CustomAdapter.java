@@ -9,29 +9,31 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import java.util.List;
+
 public class CustomAdapter extends BaseAdapter {
 
     Context context;
-    evaluation_class evaluations;
+    List<evaluation_class> evaluations;
 
-    public CustomAdapter(Context context, evaluation_class evaluations) {
+    public CustomAdapter(Context context, List<evaluation_class> evaluations) {
         this.context = context;
         this.evaluations = evaluations;
     }
 
     @Override
     public int getCount() {
-        return evaluations.Characters.size();
+        return evaluations.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return evaluations.Characters.get(position);
+        return evaluations.get(position).getCharacter();
     }
 
     @Override
     public long getItemId(int position) {
-        return evaluations.Characters.indexOf(getItem(position));
+        return evaluations.get(position).getId();
     }
 
     /* private view holder class */
@@ -62,11 +64,11 @@ public class CustomAdapter extends BaseAdapter {
             holder.character.setTypeface(urdu);
 
 
-            Integer s = evaluations.Score.get(position);
+            Integer s = evaluations.get(position).getScore();
 
-            holder.character.setText(evaluations.Characters.get(position).split(" ")[0]);
-            holder.characterName.setText(evaluations.Characters.get(position).split(" ")[1]);
-            holder.Score.setText("Score: " + evaluations.Score.get(position) + "%");
+            holder.character.setText(evaluations.get(position).getCharacter().split(" ")[0]);
+            holder.characterName.setText(evaluations.get(position).getCharacter().split(" ")[1]);
+            holder.Score.setText("Score: " + evaluations.get(position).getScore() + "%");
 
             convertView.setTag(holder);
         } else {

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PracticeActivity"
+    android:background="#a2a9bc"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/chartext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="64dp"
+        android:layout_marginRight="64dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Learn"
+        android:textAlignment="center"
+        android:textSize="50sp"
+        android:layout_centerHorizontal="true" />
+
+
+    <com.example.urduhandwritingtutor.CanvasView
+        android:id="@+id/canvas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="32dp"
+        android:layout_marginLeft="32dp"
+        android:background="@drawable/boardcropped"
+        android:layout_above="@id/line1"
+        android:layout_below="@id/chartext"/>
+
+    <LinearLayout
+        android:id="@+id/line1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/start_test"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true">
+
+        <ImageButton
+            android:id="@+id/clearbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/start_test"
+            android:layout_margin="16dp"
+            android:src="@drawable/rubbishbin"
+            android:adjustViewBounds="true"
+            android:background="#a2a9bc"
+            android:onClick="clearCanvas"/>
+        <ImageButton
+            android:id="@+id/playbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/playbuttonarrowhead"
+            android:layout_above="@id/start_test"
+            android:layout_margin="16dp"
+            android:adjustViewBounds="true"
+            android:background="#a2a9bc"
+            android:onClick="play"/>
+
+        <ImageButton
+            android:id="@+id/pausebtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/pausebutton"
+            android:layout_above="@id/start_test"
+            android:layout_margin="16dp"
+            android:adjustViewBounds="true"
+            android:background="#a2a9bc"
+            android:onClick="pause"/>
+
+        <ImageButton
+            android:id="@+id/stopbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/quit"
+            android:layout_above="@id/start_test"
+            android:layout_margin="16dp"
+            android:adjustViewBounds="true"
+            android:background="#a2a9bc"
+            android:onClick="stop"/>
+
+        <!--<ImageButton
+            android:id="@+id/colorbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/colorpalette"
+            android:layout_above="@id/start_test"
+            android:layout_margin="16dp"
+            android:adjustViewBounds="true"
+            android:background="#a2a9bc"
+            android:onClick="changecolor"/>-->
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/start_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Start Test"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/greencolorrounded_button"
+        android:padding="12dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginBottom="32dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:textSize="18sp"
+        android:onClick="start_test"/>
+</RelativeLayout>

@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!--<TextView
+        android:id="@+id/text_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <Button
+        android:id="@+id/alif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginRight="44dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/alif"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/bay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/bay"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@id/alif"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/pay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/pay"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@id/bay"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/tay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/tay"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@id/pay"
+        app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/ttay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/ttay"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@id/tay"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/say"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/say"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@id/ttay"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <Button
+        android:id="@+id/jeem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginRight="44dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/jeem"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/alif" />
+
+    <Button
+        android:id="@+id/chay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/chay"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@+id/jeem"
+        app:layout_constraintTop_toBottomOf="@+id/bay" />
+
+    <Button
+        android:id="@+id/hay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/hay"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@+id/chay"
+        app:layout_constraintTop_toBottomOf="@id/pay" />
+
+    <Button
+        android:id="@+id/khay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/khay"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@+id/hay"
+        app:layout_constraintTop_toBottomOf="@id/tay" />
+
+    <Button
+        android:id="@+id/daal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/daal"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@+id/khay"
+        app:layout_constraintTop_toBottomOf="@id/ttay" />
+
+    <Button
+        android:id="@+id/ddaal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/ddal"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@+id/daal"
+        app:layout_constraintTop_toBottomOf="@id/say" />
+
+    <Button
+        android:id="@+id/zaal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginRight="44dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/zaal"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/jeem" />
+
+    <Button
+        android:id="@+id/ray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/ray"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@+id/zaal"
+        app:layout_constraintTop_toBottomOf="@+id/chay" />
+
+    <Button
+        android:id="@+id/rray"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/rray"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@+id/ray"
+        app:layout_constraintTop_toBottomOf="@+id/hay" />
+
+    <Button
+        android:id="@+id/zay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/zay"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@+id/rray"
+        app:layout_constraintTop_toBottomOf="@+id/khay" />
+
+    <Button
+        android:id="@+id/ssay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/ssay"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@+id/zay"
+        app:layout_constraintTop_toBottomOf="@+id/daal" />
+
+    <Button
+        android:id="@+id/seen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/seen"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@+id/ssay"
+        app:layout_constraintTop_toBottomOf="@+id/ddaal" />
+
+    <Button
+        android:id="@+id/sheen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginRight="44dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/sheen"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/zaal" />
+
+    <Button
+        android:id="@+id/suaad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/suaad"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@+id/sheen"
+        app:layout_constraintTop_toBottomOf="@+id/ray" />
+
+    <Button
+        android:id="@+id/zuaad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/zuaad"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@+id/suaad"
+        app:layout_constraintTop_toBottomOf="@+id/rray" />
+
+    <Button
+        android:id="@+id/toayein"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/toayein"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@+id/zuaad"
+        app:layout_constraintTop_toBottomOf="@+id/zay" />
+
+    <Button
+        android:id="@+id/zoayein"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/zoayein"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@+id/toayein"
+        app:layout_constraintTop_toBottomOf="@+id/ssay" />
+
+    <Button
+        android:id="@+id/aayein"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/aayein"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@+id/zoayein"
+        app:layout_constraintTop_toBottomOf="@+id/seen" />
+
+    <Button
+        android:id="@+id/ghayein"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginRight="44dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/ghayein"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sheen" />
+
+    <Button
+        android:id="@+id/fay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/fay"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@+id/ghayein"
+        app:layout_constraintTop_toBottomOf="@+id/suaad" />
+
+    <Button
+        android:id="@+id/qaaf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/qaaf"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@+id/fay"
+        app:layout_constraintTop_toBottomOf="@+id/zuaad" />
+
+    <Button
+        android:id="@+id/kaaf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/kaaf"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@+id/qaaf"
+        app:layout_constraintTop_toBottomOf="@+id/toayein" />
+
+    <Button
+        android:id="@+id/gaaf"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/gaaf"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@+id/kaaf"
+        app:layout_constraintTop_toBottomOf="@+id/zoayein" />
+
+    <Button
+        android:id="@+id/laam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/laam"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@+id/gaaf"
+        app:layout_constraintTop_toBottomOf="@+id/aayein" />
+
+    <Button
+        android:id="@+id/meem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginRight="44dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/meem"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ghayein" />
+
+    <Button
+        android:id="@+id/noon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/noon"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@+id/meem"
+        app:layout_constraintTop_toBottomOf="@+id/fay" />
+
+    <Button
+        android:id="@+id/wao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/wao"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@+id/noon"
+        app:layout_constraintTop_toBottomOf="@+id/qaaf" />
+
+    <Button
+        android:id="@+id/haa"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/haa"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@+id/wao"
+        app:layout_constraintTop_toBottomOf="@+id/kaaf" />
+
+    <Button
+        android:id="@+id/hamza"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/hamza"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@+id/haa"
+        app:layout_constraintTop_toBottomOf="@+id/gaaf" />
+
+
+    <Button
+        android:id="@+id/choti_yay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/choti_yay"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toStartOf="@+id/hamza"
+        app:layout_constraintTop_toBottomOf="@+id/laam" />
+
+    <Button
+        android:id="@+id/barri_yay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginRight="44dp"
+        android:background="@drawable/circle_button"
+        android:text="@string/barri_yay"
+        android:textColor="#fff"
+        android:textSize="50dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/meem" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tap on any alphabet to start learning!"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barri_yay"
+        android:textSize="20sp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

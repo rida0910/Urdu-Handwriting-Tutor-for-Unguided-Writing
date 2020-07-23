@@ -185,17 +185,17 @@ public class TestActivity extends AppCompatActivity {
                 int score = Math.round(confidence*100);
                 //String Feedback = "Number of Strokes: Correct\n\nOrder of Strokes: correct\n\nStroke Direction: Correct";
                 String Feedback;
-                float confidenceMax = Collections.max(result);
-                int indexOfMax = result.indexOf(confidenceMax);
+                //float confidenceMax = Collections.max(result);
+                /*int indexOfMax = result.indexOf(confidenceMax);
                 if (!getCharacter(indexOfMax).equals(getCharacter(i)))
                 {
                     Feedback = "You wrote " + getCharacter(indexOfMax) + " instead of " + getCharacter(i);
                     score = 0;
                 }
-                else {
-                    Feedback = getFeedback(canvasView, i);
-                    score = (score / 100) * 40 + alpha + beta + gamma;
-                }
+                else {*/
+                Feedback = getFeedback(canvasView, i);
+                score = (score / 100) * 40 + alpha + beta + gamma;
+                //}
                 String hh = getCharacter(i);
                 db.addevaluation(getCharacter(i), score, Feedback);
                 bundle.putInt("Score", score);

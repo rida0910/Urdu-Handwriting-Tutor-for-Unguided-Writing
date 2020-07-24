@@ -1,0 +1,128 @@
+def resample(X, Y, count, storedCharacter):
+    if len(X) == 1:
+        return X, Y
+    resampled_X = []
+    resampled_Y = []
+    mid = len(X)//2
+    t = FindAvgSpacing(X, Y) - 3
+    
+    resampled_X.append(X[0])
+    resampled_Y.append(Y[0])
+    
+    Lx = X[1 : mid - 1]
+    Rx = X[mid : len(X) - 2]
+    Ly = Y[1 : mid - 1]
+    Ry = Y[mid : len(Y) - 2]
+    
+    i = 0
+    
+    if len(X) > count: 
+        for i in range(1, len(Lx) - 1):
+            x1 = Lx[i]
+            x2 = Lx[i+1]
+            y1 = Ly[i]
+            y2 = Ly[i+1]
+            if len(resampled_X) < count/2 - 1:
+                if (distance(x1, x2, y1, y2)) >= t:
+                    resampled_X.append(x1)
+                    resampled_Y.append(y1)
+        resampled_X.append(X[mid])
+        resampled_Y.append(Y[mid])
+        i = len(Rx) - 1
+        #while i > 1:
+        for i in range(1, len(Rx) - 1):
+            x1 = Rx[i]
+            x2 = Rx[i-1]
+            y1 = Ry[i]
+            y2 = Ry[i-1]
+            if len(resampled_X) < count - 1:
+                if (distance(x1, x2, y1, y2)) >= t:
+                    resampled_X.append(x1)
+                    resampled_Y.append(y1)
+            #i = i - 1
+        resampled_X.append(X[len(X) - 1])
+        resampled_Y.append(Y[len(Y) - 1])
+    elif len(X) < count:
+        resampled_X = list(X)
+        resampled_Y = list(Y)
+        for i in range(len(resampled_X), count):
+            resampled_X.append(X[len(X) - 1])
+            resampled_Y.append(Y[len(Y) - 1])
+    if len(resampled_X) < count:
+        for i in range(len(resampled_X), count):
+            resampled_X.append(X[len(X) - 1])
+            resampled_Y.append(Y[len(Y) - 1])
+    return resampled_X, resampled_Y
+
+---------------------------------------------------------------------------------
+
+def resample(X, Y, count):
+    if len(X) == 1 or len(X) == count:
+        return X, Y
+    if len(X) < count:
+        resampled_X = list(X)
+        resampled_Y = list(Y)
+        for i in range(len(resampled_X), count):
+            resampled_X.append(X[len(X) - 1])
+            resampled_Y.append(Y[len(Y) - 1])
+        return resampled_X, resampled_Y
+    t = FindAvgSpacing(X, Y) - 3
+    resampled_X = []
+    resampled_Y = []
+    resampled_X.append(X[0])
+    resampled_Y.append(Y[0])
+    
+    j = (len(X))//count
+    i = j
+    
+    while len(resampled_X) < count and i + j < len(X) - 2:
+        if distance(X[i], X[i+j], Y[i], Y[i+j]) >= t:
+            resampled_X.append(X[i])
+            resampled_Y.append(Y[i])
+        i = i + j
+    
+    resampled_X.append(X[len(X) - 1])
+    resampled_Y.append(Y[len(Y) - 1])
+    if len(resampled_X) < count:
+        for i in range(len(resampled_X), count):
+            resampled_X.append(X[len(X) - 1])
+            resampled_Y.append(Y[len(Y) - 1])
+    return resampled_X, resampled_Y
+
+-----------------------------------------------------------------------------------
+
+def resample(X, Y, count):
+    if len(X) == 1 or len(X) == count:
+        return X, Y
+    if len(X) < count:
+        resampled_X = list(X)
+        resampled_Y = list(Y)
+        for i in range(len(resampled_X), count):
+            resampled_X.append(X[len(X) - 1])
+            resampled_Y.append(Y[len(Y) - 1])
+        return resampled_X, resampled_Y
+    
+    t = 5
+    resampled_X = []
+    resampled_Y = []
+    resampled_X.append(X[0])
+    resampled_Y.append(Y[0])
+    
+    
+    j = ((len(X))//count) + 1
+    i = j     
+    
+   
+    while len(resampled_X) < count - 2 and i + j < len(X) - 1:
+        if distance(X[i], X[i+j], Y[i], Y[i+j]) >= t:
+            resampled_X.append(X[i])
+            resampled_Y.append(Y[i])
+        i = i + j
+    
+    resampled_X.append(X[len(X) - 1])
+    resampled_Y.append(Y[len(Y) - 1])
+    if len(resampled_X) < count:
+        for i in range(len(resampled_X), count):
+            resampled_X.append(X[len(X) - 1])
+            resampled_Y.append(Y[len(Y) - 1])
+    return resampled_X, resampled_Y
